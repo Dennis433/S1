@@ -70,27 +70,40 @@ section{padding:84px 24px}
 .bb-title{font:700 .8rem "Barlow",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .bb-val{font:700 1.5rem "Barlow",sans-serif;color:var(--violet-soft)}
 /* balance modal */
-.bm-section-title{font:700 .72rem "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.bm-row{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
-.bm-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 .85rem "Barlow",sans-serif;color:#fff;flex-shrink:0}
+/* balance modal */
+.bm-wrap{border-radius:24px;overflow:hidden;background:#0d0d14;border:1px solid var(--line)}
+.bm-header{background:linear-gradient(160deg,#7a2cf0,#a24dff 60%,#c460ff);padding:32px 24px 28px;text-align:center}
+.bm-avatar{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font:700 1.6rem "Barlow",sans-serif;color:#fff;margin:0 auto 12px}
+.bm-uname{font:700 1.2rem "Barlow",sans-serif;color:#fff;margin-bottom:2px}
+.bm-addr{font-size:.82rem;color:rgba(255,255,255,.7);font-family:monospace;margin-bottom:14px}
+.bm-total-lbl{font:700 .7rem "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px}
+.bm-total-val{font:700 2rem "Barlow",sans-serif;color:#fff;line-height:1}
+.bm-connected{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:.85rem;color:rgba(255,255,255,.85)}
+.bm-connected::before{content:"";width:8px;height:8px;border-radius:50%;background:#00e88a;box-shadow:0 0 6px #00e88a;display:inline-block}
+.bm-body{padding:0 0 4px}
+.bm-section-title{font:700 .7rem "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:16px 20px 8px}
+.bm-row{display:flex;align-items:flex-start;gap:14px;padding:12px 20px;border-bottom:1px solid var(--line)}
+.bm-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 .8rem "Barlow",sans-serif;color:#fff;flex-shrink:0}
 .bm-icon-gold{background:linear-gradient(135deg,#c8860a,#f5b942)}
 .bm-icon-violet{background:linear-gradient(135deg,#7a2cf0,#a24dff)}
 .bm-info{flex:1}
-.bm-name{font:700 1.05rem "Barlow",sans-serif;color:var(--ink)}
-.bm-sub{font-size:.85rem;color:var(--muted);margin-top:2px}
-.bm-apy-tag{display:inline-block;margin-top:6px;padding:4px 12px;border-radius:999px;background:#003d2a;border:1px solid #00c87a;color:#00e88a;font:700 .75rem "Barlow",sans-serif;letter-spacing:.04em}
-.bm-amount{font:700 1.1rem "Barlow",sans-serif;color:var(--ink);white-space:nowrap;padding-top:2px}
+.bm-name{font:700 1rem "Barlow",sans-serif;color:var(--ink)}
+.bm-sub{font-size:.82rem;color:var(--muted);margin-top:1px}
+.bm-apy-tag{display:inline-block;margin-top:5px;padding:3px 10px;border-radius:999px;background:#003d2a;border:1px solid #00c87a;color:#00e88a;font:700 .72rem "Barlow",sans-serif;letter-spacing:.04em}
+.bm-amount{font:700 1rem "Barlow",sans-serif;color:var(--ink);white-space:nowrap;padding-top:2px}
 .bm-amount-green{color:#00e88a}
-.bm-reward-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
-.bm-reward-icon{width:32px;height:32px;border-radius:50%;background:#1a0a2e;border:1px solid var(--violet);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--violet-soft);flex-shrink:0}
+.bm-reward-row{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--line)}
+.bm-reward-icon{width:30px;height:30px;border-radius:50%;background:#1a0a2e;border:1px solid var(--violet);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--violet-soft);flex-shrink:0}
 .bm-reward-info{flex:1}
-.bm-reward-label{font:700 1rem "Barlow",sans-serif;color:var(--ink)}
-.bm-reward-sub{font-size:.85rem;color:var(--muted);margin-top:2px}
-.bm-reward-right{text-align:right}
-.bm-reward-val{font:700 1rem "Barlow",sans-serif;color:#00e88a;display:block}
-.bm-reward-dash{font-size:.85rem;color:var(--muted)}
-.bm-unstake-btn{width:100%;margin-top:22px;padding:18px;border-radius:14px;background:#0d0d14;border:1.5px solid var(--line);color:var(--ink);font:700 1rem "Barlow",sans-serif;letter-spacing:.06em;cursor:pointer;transition:.2s}
+.bm-reward-label{font:700 .95rem "Barlow",sans-serif;color:var(--ink)}
+.bm-reward-sub{font-size:.82rem;color:var(--muted);margin-top:1px}
+.bm-reward-right{text-align:right;min-width:90px}
+.bm-reward-val{font:700 .95rem "Barlow",sans-serif;color:#00e88a;display:block}
+.bm-reward-dash{font-size:.8rem;color:var(--muted)}
+.bm-unstake-btn{width:calc(100% - 40px);margin:16px 20px 4px;padding:16px;border-radius:12px;background:#0d0d14;border:1.5px solid var(--line);color:var(--ink);font:700 .9rem "Barlow",sans-serif;letter-spacing:.06em;cursor:pointer;transition:.2s;display:block}
 .bm-unstake-btn:hover{border-color:var(--violet-soft);color:var(--violet-soft)}
+.bm-close-btn{width:calc(100% - 40px);margin:8px 20px 20px;padding:14px;border-radius:12px;background:transparent;border:1.5px solid var(--line);color:var(--muted);font:700 .9rem "Barlow",sans-serif;cursor:pointer;transition:.2s;display:block}
+.bm-close-btn:hover{color:var(--ink);border-color:var(--ink)}
 .apy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
 .apy-card{background:linear-gradient(135deg,#12042a,#0d0d14);border:1px solid var(--violet);border-radius:20px;padding:24px 18px;text-align:center}
 .apy-val{font:700 2rem "Barlow",sans-serif;color:var(--violet-soft);line-height:1;margin-bottom:6px}
@@ -103,7 +116,7 @@ h2{margin:0 0 36px;font-weight:400;font-size:clamp(2rem,8vw,3rem);line-height:1.
 .card p{margin:0;font-size:1.3rem;line-height:1.5;color:var(--ink)}
 
 /* old-stake-placeholder */
-.stake-box{border:2px solid var(--line);border-radius:28px;padding:34px 26px;background:linear-gradient(160deg,#14052b,#000 70%)}
+.stake-box{border:2px solid var(--line);border-radius:28px;padding:34px 26px;background:linear-gradient(160deg,#14052b,#000 70%);max-width:520px;margin-inline:auto}
 .stake-box p{margin:0 0 4px;font-size:1.3rem}
 .sflow{display:none;flex-direction:column;gap:18px}
 .sflow.active{display:flex}
@@ -283,51 +296,68 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
 
       <!-- Balance modal -->
       <div id="balModal" style="display:none">
-        <div class="bm-section-title">TOKEN BALANCES</div>
-        <div class="bm-row">
-          <div class="bm-icon bm-icon-gold">SI</div>
-          <div class="bm-info">
-            <div class="bm-name">SI276</div>
-            <div class="bm-sub">Available balance</div>
+        <div class="bm-wrap">
+          <!-- purple profile header -->
+          <div class="bm-header">
+            <div class="bm-avatar" id="bmAvatar">?</div>
+            <div class="bm-uname" id="bmUname">—</div>
+            <div class="bm-addr" id="bmAddr">—</div>
+            <div class="bm-total-lbl">TOTAL BALANCE</div>
+            <div class="bm-total-val" id="bmTotal">0 SI276</div>
+            <div class="bm-connected">Connected to SI276</div>
           </div>
-          <div class="bm-amount">0 SI276</div>
-        </div>
-        <div class="bm-row">
-          <div class="bm-icon bm-icon-violet">SI</div>
-          <div class="bm-info">
-            <div class="bm-name">Staked SI276</div>
-            <div class="bm-sub">Locked in vault</div>
-            <span class="bm-apy-tag">Earning 276% APY</span>
-          </div>
-          <div class="bm-amount bm-amount-green" id="bmStaked">— SI276</div>
-        </div>
 
-        <div class="bm-section-title" style="margin-top:24px">REWARDS BREAKDOWN</div>
-        <div class="bm-reward-row">
-          <div class="bm-reward-icon">↓</div>
-          <div class="bm-reward-info">
-            <div class="bm-reward-label">Months 1–6</div>
-            <div class="bm-reward-sub">0.1% daily</div>
-          </div>
-          <div class="bm-reward-right">
-            <span class="bm-reward-val" id="bmR1">0 SI276</span>
-            <div class="bm-reward-dash">—</div>
-          </div>
-        </div>
-        <div class="bm-reward-row">
-          <div class="bm-reward-icon">↓</div>
-          <div class="bm-reward-info">
-            <div class="bm-reward-label">Months 7–12</div>
-            <div class="bm-reward-sub">0.25% daily</div>
-          </div>
-          <div class="bm-reward-right">
-            <span class="bm-reward-val" id="bmR2">0 SI276</span>
-            <div class="bm-reward-dash">—</div>
-          </div>
-        </div>
+          <!-- token balances -->
+          <div class="bm-body">
+            <div class="bm-section-title">TOKEN BALANCES</div>
+            <div class="bm-row">
+              <div class="bm-icon bm-icon-gold">SI</div>
+              <div class="bm-info">
+                <div class="bm-name">SI276</div>
+                <div class="bm-sub">Available balance</div>
+              </div>
+              <div class="bm-amount">0 SI276</div>
+            </div>
+            <div class="bm-row">
+              <div class="bm-icon bm-icon-violet">SI</div>
+              <div class="bm-info">
+                <div class="bm-name">Staked SI276</div>
+                <div class="bm-sub">Locked in vault</div>
+                <span class="bm-apy-tag">Earning 276% APY</span>
+              </div>
+              <div class="bm-amount bm-amount-green" id="bmStaked">— SI276</div>
+            </div>
 
-        <button class="bm-unstake-btn" id="unstakeBtn">↓ UNSTAKE SI276</button>
-        <button class="sbtn sbtn-ghost" id="closeBalModal" style="width:100%;margin-top:10px">Close</button>
+            <!-- rewards breakdown -->
+            <div class="bm-section-title" style="margin-top:8px">REWARDS BREAKDOWN</div>
+            <div class="bm-reward-row">
+              <div class="bm-reward-icon">↓</div>
+              <div class="bm-reward-info">
+                <div class="bm-reward-label">Months 1–6</div>
+                <div class="bm-reward-sub">0.1% daily</div>
+              </div>
+              <div class="bm-reward-right">
+                <span class="bm-reward-val" id="bmR1">0 SI276</span>
+                <div class="bm-reward-dash">—</div>
+              </div>
+            </div>
+            <div class="bm-reward-row">
+              <div class="bm-reward-icon">↓</div>
+              <div class="bm-reward-info">
+                <div class="bm-reward-label">Months 7–12</div>
+                <div class="bm-reward-sub">0.25% daily</div>
+              </div>
+              <div class="bm-reward-right">
+                <span class="bm-reward-val" id="bmR2">0 SI276</span>
+                <div class="bm-reward-dash">—</div>
+              </div>
+            </div>
+
+            <!-- unstake only shown when connected -->
+            <button class="bm-unstake-btn" id="unstakeBtn" style="display:none">↓ UNSTAKE SI276</button>
+            <button class="bm-close-btn" id="closeBalModal">Close</button>
+          </div>
+        </div>
       </div>
 
       <!-- step B -->
@@ -530,18 +560,34 @@ async function loadMyBalance(){
   try{
     const data = await loadBin();
     const stake = (data.stakes||{})[myId];
-    // available balance always 0
-    // staked modal
+    const session = getSession();
+
+    // populate profile header from session
+    if(session){
+      const initial = session.uname.charAt(0).toUpperCase();
+      $("bmAvatar").textContent = initial;
+      $("bmUname").textContent  = session.uname;
+      const w = session.wallet;
+      $("bmAddr").textContent   = w.length > 18 ? w.slice(0,10)+"…"+w.slice(-6) : w;
+      $("unstakeBtn").style.display = "block";
+    } else {
+      $("bmAvatar").textContent = "?";
+      $("bmUname").textContent  = "Not connected";
+      $("bmAddr").textContent   = "—";
+      $("unstakeBtn").style.display = "none";
+    }
+
     if(!stake){
       $("bmStaked").textContent="0 SI276";
+      $("bmTotal").textContent ="0 SI276";
       $("bmR1").textContent="0 SI276";
       $("bmR2").textContent="0 SI276";
       return;
     }
     const isConfirmed = stake.status==="confirmed";
-    // staked row
-    $("bmStaked").textContent = isConfirmed ? (stake.amount||"0")+" SI276" : "Pending confirmation";
-    // rewards
+    const amt = stake.amount||"0";
+    $("bmStaked").textContent = isConfirmed ? amt+" SI276" : "Pending…";
+    $("bmTotal").textContent  = isConfirmed ? amt+" SI276" : "Pending…";
     if(isConfirmed && stake.amount){
       const {r1,r2} = calcRewards(stake.amount, stake.confirmedAt||stake.submittedAt||Date.now());
       $("bmR1").textContent = r1+" SI276";
@@ -550,7 +596,6 @@ async function loadMyBalance(){
       $("bmR1").textContent="0 SI276";
       $("bmR2").textContent="0 SI276";
     }
-    // pre-fill form fields
     if(stake.wallet)  $("walletIn").value  = stake.wallet;
     if(stake.uname)   $("unameIn").value   = stake.uname;
     if(stake.amount)  $("amountIn").value  = stake.amount;
