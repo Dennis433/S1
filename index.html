@@ -80,10 +80,17 @@ section{padding:84px 24px}
 .bm-addr{font-size:.78rem;color:#5a7a62;font-family:monospace}
 .bm-conn-tag{padding:5px 14px;border-radius:8px;border:1.5px solid #00e88a;color:#00e88a;font:700 .78rem "Barlow",sans-serif;letter-spacing:.04em;background:transparent;cursor:default}
 .bm-total-lbl{font:700 .68rem "Barlow",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4a6a52;text-align:center;margin-bottom:8px}
-.bm-total-val{font:700 2.4rem "Barlow",sans-serif;color:#00e88a;text-align:center;line-height:1;margin-bottom:4px}
-.bm-total-usd{font:700 1.5rem "Barlow",sans-serif;color:#fff;text-align:center;margin-bottom:10px;letter-spacing:.01em}
+.bm-total-usd{font:700 2.6rem "Barlow",sans-serif;color:#fff;text-align:center;line-height:1;margin-bottom:4px;letter-spacing:.01em}
+.bm-total-val{font:400 1rem "Outfit",sans-serif;color:#4a7a5a;text-align:center;margin-bottom:10px}
 .bm-amount-usd{font:600 .85rem "Outfit",sans-serif;color:#4a7a5a}
 .bm-price-ticker{font:600 .72rem "Outfit",sans-serif;color:#00e88a;letter-spacing:0;text-transform:none;float:right}
+.recv-title{font:700 1.1rem "Barlow",sans-serif;color:#fff;margin-bottom:16px}
+.recv-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.recv-step{display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:#5a7a62;line-height:1.4}
+.recv-step strong{color:#e6e8ea}
+.recv-num{width:22px;height:22px;border-radius:50%;background:#0f3320;border:1px solid #00c87a;color:#00e88a;font:700 .72rem "Barlow",sans-serif;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.recv-lbl{font:700 .7rem "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#4a6a52;margin-bottom:8px}
+.recv-addr{background:#081208;border:1.5px solid #1a4a28;border-radius:12px;padding:14px 16px;font:1rem "Outfit",monospace;color:#00e88a;word-break:break-all;line-height:1.5}
 .bm-connected-line{display:flex;align-items:center;justify-content:center;gap:6px;font-size:.85rem;color:#5a7a62;margin-bottom:18px}
 .bm-connected-line strong{color:#00e88a}
 .bm-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -195,7 +202,18 @@ h2{margin:0 0 36px;font-weight:400;font-size:clamp(2rem,8vw,3rem);line-height:1.
 .pending-tag{display:inline-block;padding:4px 14px;border-radius:999px;background:#2a1a00;border:1.5px solid #6b4400;color:#e8a020;font:700 .8rem "Barlow",sans-serif;letter-spacing:.04em;margin-top:8px}
 .notice{padding:16px 18px;border-radius:14px;background:#0d0d14;border:2px solid var(--line);font-size:1.1rem;line-height:1.5;color:var(--muted);margin-bottom:16px}
 .notice strong{color:var(--ink)}
-footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px solid var(--line)}
+footer{padding:40px 24px calc(60px + 80px);color:var(--muted);font-size:.95rem;border-top:1px solid var(--line)}
+.sticky-bar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(8,8,20,.96);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center}
+#sbarNotConnected,#sbarConnected{display:flex;align-items:center;gap:12px;width:100%}
+.sticky-cw-btn{flex:1;padding:14px 20px;border-radius:999px;background:linear-gradient(135deg,#7a2cf0,#a24dff);color:#fff;font:700 1rem "Barlow",sans-serif;letter-spacing:.04em;border:0;cursor:pointer;transition:.2s}
+.sticky-cw-btn:hover{background:linear-gradient(135deg,#a24dff,#c460ff)}
+.sticky-stake-btn{padding:14px 28px;border-radius:999px;background:var(--pill);color:#0a0a0a;font:700 1rem "Barlow",sans-serif;letter-spacing:.04em;border:0;cursor:pointer;transition:.2s;white-space:nowrap}
+.sticky-stake-btn:hover{background:#fff}
+.sticky-disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
+.sbar-info{flex:1;display:flex;align-items:center;gap:8px;overflow:hidden}
+.sbar-name{font:700 .95rem "Barlow",sans-serif;color:#5dda5d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sticky-disc-btn{width:38px;height:38px;border-radius:50%;background:transparent;border:1.5px solid #6b4400;color:#e8a020;font-size:1rem;cursor:pointer;flex-shrink:0;transition:.2s}
+.sticky-disc-btn:hover{background:#2a1a00}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;z-index:30;padding:12px 22px;border-radius:999px;background:var(--pill);color:#000;font:700 1rem "Barlow",sans-serif;transition:.25s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
@@ -228,6 +246,7 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
   <div class="hero">
     <div class="waves" aria-hidden="true"></div>
     <button id="balanceBtn" class="ca" style="background:#0d0014;border-color:var(--violet-soft);color:var(--violet-soft);letter-spacing:.06em" aria-label="View your balance">YOUR BALANCE</button>
+    <button class="ca" id="ca" type="button" aria-label="Copy contract address" style="margin-top:12px">CA</button>
     <h1>SUPER<br>INTELLIGENCE<br>SI276</h1>
     <div class="hero-foot">
       <p>🧠 <strong>276% APY</strong> — Stake SI276 and earn while you sleep. Early stakers lock in the highest rates before the pool fills.</p>
@@ -291,36 +310,6 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
 
   <section id="stake">
     <div class="stake-box">
-      <h2>Stake SI276 &amp; earn rewards</h2>
-
-      <!-- idle -->
-      <div id="pIdle">
-        <button class="ca" id="ca" type="button" aria-label="Copy contract address" style="margin-bottom:18px">CA</button>
-
-        <!-- NOT connected: connect wallet prompt -->
-        <div id="notConnected">
-          <div class="cw-prompt">
-            <div class="cw-prompt-icon">🔗</div>
-            <div class="cw-prompt-text">Connect your wallet to stake SI276 and track your rewards.</div>
-          </div>
-          <button class="sbtn cw-btn" id="connectWalletBtn">Connect Wallet</button>
-          <button class="sbtn sbtn-ghost" id="openBtn" style="width:100%;margin-top:10px;opacity:.5" disabled>Stake &rarr;</button>
-        </div>
-
-        <!-- Connected: wallet bar + stake button -->
-        <div id="connectedBar" style="display:none">
-          <div class="conn-bar">
-            <div class="conn-dot"></div>
-            <div class="conn-info">
-              <span class="conn-name" id="connName"></span>
-              <span class="conn-wallet" id="connWallet"></span>
-            </div>
-            <button class="conn-disconnect" id="disconnectBtn">Disconnect</button>
-          </div>
-          <p class="step-hint" id="stakeHint" style="margin-top:14px">Send SI276 to the staking address, notify us, and admin will confirm your stake.</p>
-          <button class="sbtn sbtn-primary" id="openBtnConnected" style="width:100%;margin-top:8px">Stake &rarr;</button>
-        </div>
-      </div>
 
       <!-- Connect wallet panel -->
       <div id="pConnect" style="display:none">
@@ -347,14 +336,32 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
               <span class="bm-conn-tag" id="bmConnTag" style="display:none">Connected ✓</span>
             </div>
             <div class="bm-total-lbl">TOTAL BALANCE</div>
-            <div class="bm-total-val" id="bmTotal">0 SI276</div>
             <div class="bm-total-usd" id="bmTotalUsd">$0.00</div>
+            <div class="bm-total-val" id="bmTotal">0 SI276</div>
             <div class="bm-connected-line">Connected to <strong>SI276</strong></div>
             <div class="bm-actions">
-              <div class="bm-action"><div class="bm-action-icon">↑</div><div class="bm-action-lbl">Send</div></div>
-              <div class="bm-action"><div class="bm-action-icon">↓</div><div class="bm-action-lbl">Receive</div></div>
-              <div class="bm-action"><div class="bm-action-icon">⇌</div><div class="bm-action-lbl">Swap</div></div>
-              <div class="bm-action"><div class="bm-action-icon">›</div><div class="bm-action-lbl">More</div></div>
+              <div class="bm-action" id="modalReceiveBtn"><div class="bm-action-icon">↓</div><div class="bm-action-lbl">Receive</div></div>
+              <div class="bm-action" id="modalStakeBtn"><div class="bm-action-icon">🔒</div><div class="bm-action-lbl">Stake</div></div>
+              <div class="bm-action" id="modalUnstakeBtn"><div class="bm-action-icon">🔓</div><div class="bm-action-lbl">Unstake</div></div>
+              <div class="bm-action" id="modalSwapBtn"><div class="bm-action-icon">⇌</div><div class="bm-action-lbl">Swap</div></div>
+            </div>
+          </div>
+
+          <!-- receive panel -->
+          <div id="receivePanel" style="display:none">
+            <div class="bm-body" style="padding:20px">
+              <div class="recv-title">Deposit SI276</div>
+              <div class="recv-steps">
+                <div class="recv-step"><span class="recv-num">1</span>Copy the staking address below</div>
+                <div class="recv-step"><span class="recv-num">2</span>Send SI276 from your wallet to this address</div>
+                <div class="recv-step"><span class="recv-num">3</span>Tap <strong>Stake →</strong> and complete the form so admin can confirm your deposit</div>
+              </div>
+              <div class="recv-lbl">Staking address</div>
+              <div class="recv-addr">GhgeHAdz96RUsHbJoTRfXMRNH5ChLjuUWNqw56aYBgzT</div>
+              <div style="display:flex;gap:10px;margin-top:12px">
+                <button class="sbtn sticky-cw-btn" id="copyRecvBtn" style="font-size:.85rem;padding:13px 18px">Copy address</button>
+                <button class="sbtn sbtn-ghost" id="closeRecvBtn" style="flex:0 0 auto;padding:13px 18px;font-size:.85rem">Close</button>
+              </div>
             </div>
           </div>
 
@@ -407,7 +414,6 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
               </div>
             </div>
 
-            <button class="bm-unstake-btn" id="unstakeBtn" style="display:none">↓ UNSTAKE SI276</button>
             <button class="bm-disconnect-btn" id="modalDisconnectBtn" style="display:none">Disconnect wallet</button>
             <button class="bm-close-btn" id="closeBalModal">Close</button>
           </div>
@@ -444,6 +450,24 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
   </section>
 </main>
 
+<!-- Sticky bottom bar -->
+<div class="sticky-bar" id="stickyBar">
+  <!-- not connected -->
+  <div id="sbarNotConnected">
+    <button class="sticky-cw-btn" id="sbarConnectBtn">🔗 Connect Wallet</button>
+    <button class="sticky-stake-btn sticky-disabled" disabled>Stake</button>
+  </div>
+  <!-- connected -->
+  <div id="sbarConnected" style="display:none">
+    <div class="sbar-info">
+      <span class="conn-dot"></span>
+      <span class="sbar-name" id="sbarName"></span>
+    </div>
+    <button class="sticky-stake-btn" id="sbarStakeBtn">Stake &rarr;</button>
+    <button class="sticky-disc-btn" id="sbarDisconnectBtn">✕</button>
+  </div>
+</div>
+
 <footer>
   SI is a community token. Nothing on this page is financial advice. Digital assets can lose all of their value.
 </footer>
@@ -458,6 +482,7 @@ const STAKING_ADDRESS  = "GhgeHAdz96RUsHbJoTRfXMRNH5ChLjuUWNqw56aYBgzT";
 const CONTRACT_ADDRESS = "";
 
 const $ = id => document.getElementById(id);
+function hideAll(){ ["pStepB","pStepC","pPending","pConnect"].forEach(p=>$(p).style.display="none"); if($("balModal")) $("balModal").style.display="none"; }
 const API = "https://api.jsonbin.io/v3/b/";
 const RHDRS = { "X-Master-Key": JSONBIN_API_KEY };
 const WHDRS = { "Content-Type":"application/json", "X-Master-Key": JSONBIN_API_KEY };
@@ -486,21 +511,19 @@ function getSession(){
 }
 function applySession(session){
   if(!session){
-    $("notConnected").style.display="block";
-    $("connectedBar").style.display="none";
     $("balanceBtn").textContent="YOUR BALANCE";
+    // sticky bar
+    $("sbarNotConnected").style.display="flex";
+    $("sbarConnected").style.display="none";
     return;
   }
   $("walletIn").value = session.wallet;
   $("unameIn").value  = session.uname;
-  $("notConnected").style.display="none";
-  $("connectedBar").style.display="block";
-  $("connName").textContent   = session.uname;
-  $("connWallet").textContent = session.wallet.length > 24
-    ? session.wallet.slice(0,10)+"…"+session.wallet.slice(-6)
-    : session.wallet;
-  $("stakeHint").textContent  = "Connected as "+session.uname+". Send SI276 and hit Stake to submit.";
   $("balanceBtn").textContent = session.uname+"'s Balance";
+  // sticky bar
+  $("sbarNotConnected").style.display="none";
+  $("sbarConnected").style.display="flex";
+  $("sbarName").textContent = session.uname;
 }
 // Load session immediately
 const existingSession = getSession();
@@ -541,30 +564,30 @@ $("copyAddrBtn").addEventListener("click",()=>copyText(STAKING_ADDRESS));
 $("copyPendingBtn").addEventListener("click",()=>copyText(STAKING_ADDRESS));
 
 // Panels
-const PANELS=["pIdle","pStepB","pStepC","pPending","pConnect"];
+const PANELS=["pStepB","pStepC","pPending","pConnect"];
 function show(id){
   PANELS.forEach(p=>$(p).style.display=p===id?"block":"none");
   if($("balModal")) $("balModal").style.display="none";
 }
 
 // disabled stake button — prompt to connect
-$("openBtn").addEventListener("click",()=>{
+// sticky bar
+$("sbarConnectBtn").addEventListener("click",()=>{
   show("pConnect");
   $("stake").scrollIntoView({behavior:"smooth"});
 });
-
-// connected stake button
-$("openBtnConnected").addEventListener("click",()=>{
+$("sbarStakeBtn").addEventListener("click",()=>{
   show("pStepB");
   $("stake").scrollIntoView({behavior:"smooth"});
 });
+$("sbarDisconnectBtn").addEventListener("click", doDisconnect);
 
 // connect wallet panel
-$("connectWalletBtn").addEventListener("click",()=>{
+$("connectWalletBtn") && $("connectWalletBtn").addEventListener("click",()=>{
   show("pConnect");
   $("stake").scrollIntoView({behavior:"smooth"});
 });
-$("cwCancelBtn").addEventListener("click",()=>show("pIdle"));
+$("cwCancelBtn").addEventListener("click",()=>hideAll());
 $("cwConfirmBtn").addEventListener("click",()=>{
   const w=$("cwWalletIn").value.trim(), u=$("cwUnameIn").value.trim();
   if(!w) return toast("Enter your wallet address");
@@ -573,12 +596,12 @@ $("cwConfirmBtn").addEventListener("click",()=>{
   saveSession(w,u);
   applySession({wallet:w,uname:u});
   $("walletIn").value=w; $("unameIn").value=u;
-  show("pIdle");
+  hideAll();
   toast("Wallet connected ✓");
   loadMyBalance();
 });
 
-$("cancelBtn").addEventListener("click",()=>show("pIdle"));
+$("cancelBtn").addEventListener("click",()=>hideAll());
 $("backBtn").addEventListener("click",()=>show("pStepB"));
 $("nextBtn").addEventListener("click",()=>{
   const w=$("walletIn").value.trim(),u=$("unameIn").value.trim(),a=$("amountIn").value.trim();
@@ -605,7 +628,7 @@ $("sentBtn").addEventListener("click", async ()=>{
   btn.disabled=false; btn.textContent="I have sent \u2713";
 });
 
-$("doneBtn").addEventListener("click",()=>show("pIdle"));
+$("doneBtn").addEventListener("click",()=>hideAll());
 
 // Balance modal — button sits in hero, modal sits in stake section
 $("balanceBtn").addEventListener("click",()=>{
@@ -618,11 +641,23 @@ $("balanceBtn").addEventListener("click",()=>{
 });
 $("closeBalModal").addEventListener("click",()=>{
   $("balModal").style.display="none";
-  $("pIdle").style.display="block";
+  hideAll();
 });
-$("unstakeBtn").addEventListener("click",()=>{
-  toast("Contact admin to unstake your SI276.");
+$("modalReceiveBtn").addEventListener("click",()=>{
+  const p=$("receivePanel"), b=$("bm-body-main");
+  const open = p.style.display==="block";
+  p.style.display = open ? "none" : "block";
+  if(!open) p.scrollIntoView({behavior:"smooth",block:"nearest"});
 });
+$("copyRecvBtn").addEventListener("click",()=>copyText("GhgeHAdz96RUsHbJoTRfXMRNH5ChLjuUWNqw56aYBgzT"));
+$("closeRecvBtn").addEventListener("click",()=>{ $("receivePanel").style.display="none"; });
+$("modalStakeBtn").addEventListener("click",()=>{
+  $("balModal").style.display="none";
+  show("pStepB");
+  $("stake").scrollIntoView({behavior:"smooth"});
+});
+$("modalUnstakeBtn").addEventListener("click",()=>{ toast("Contact admin to unstake your SI276."); });
+$("modalSwapBtn").addEventListener("click",()=>{ toast("Swap coming soon."); });
 
 function doDisconnect(){
   clearSession();
@@ -632,7 +667,7 @@ function doDisconnect(){
   $("bmR1").textContent="0 SI276"; $("bmR1sub").textContent="—";
   $("bmR2").textContent="0 SI276"; $("bmR2sub").textContent="—";
   applySession(null);
-  show("pIdle");
+  hideAll();
   toast("Disconnected");
 }
 $("disconnectBtn").addEventListener("click", doDisconnect);
@@ -689,14 +724,12 @@ async function loadMyBalance(){
       const w = session.wallet;
       $("bmAddr").textContent   = w.length>18 ? w.slice(0,10)+"…"+w.slice(-6) : w;
       $("bmConnTag").style.display = "inline-block";
-      $("unstakeBtn").style.display = "block";
       $("modalDisconnectBtn").style.display = "block";
     } else {
       $("bmAvatar").textContent = "?";
       $("bmUname").textContent  = "Not connected";
       $("bmAddr").textContent   = "Connect your wallet to stake";
       $("bmConnTag").style.display = "none";
-      $("unstakeBtn").style.display = "none";
       $("modalDisconnectBtn").style.display = "none";
     }
 
