@@ -172,6 +172,12 @@ h2{margin:0 0 36px;font-weight:400;font-size:clamp(2rem,8vw,3rem);line-height:1.
 .sbtn-violet{background:var(--violet);color:#fff}
 .sbtn-violet:hover{background:var(--violet-soft)}
 .step-hint{font-size:1rem;color:var(--muted);margin:0 0 18px}
+.cw-btn{width:100%;padding:18px;border-radius:999px;background:linear-gradient(135deg,#7a2cf0,#a24dff);color:#fff;font:700 1rem "Barlow",sans-serif;letter-spacing:.06em;text-transform:uppercase;border:0;cursor:pointer;transition:.2s,transform .15s}
+.cw-btn:hover{background:linear-gradient(135deg,#a24dff,#c460ff)}
+.cw-btn:active{transform:scale(.97)}
+.cw-prompt{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;background:#0d0d14;border:1.5px dashed var(--line);margin-bottom:16px}
+.cw-prompt-icon{font-size:1.6rem;flex-shrink:0}
+.cw-prompt-text{font-size:.95rem;color:var(--muted);line-height:1.4}
 .conn-bar{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:14px;background:#0d0d14;border:1.5px solid #2d6b2d}
 .conn-dot{width:10px;height:10px;border-radius:50%;background:#00e88a;box-shadow:0 0 8px #00e88a;flex-shrink:0}
 .conn-info{flex:1;display:flex;flex-direction:column;gap:2px;overflow:hidden}
@@ -288,8 +294,18 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
       <div id="pIdle">
         <button class="ca" id="ca" type="button" aria-label="Copy contract address" style="margin-bottom:18px">CA</button>
 
-        <!-- Connected wallet bar (shown when wallet saved in localStorage) -->
-        <div id="connectedBar" style="display:none;margin-bottom:18px">
+        <!-- NOT connected: connect wallet prompt -->
+        <div id="notConnected">
+          <div class="cw-prompt">
+            <div class="cw-prompt-icon">🔗</div>
+            <div class="cw-prompt-text">Connect your wallet to stake SI276 and track your rewards.</div>
+          </div>
+          <button class="sbtn cw-btn" id="connectWalletBtn">Connect Wallet</button>
+          <button class="sbtn sbtn-ghost" id="openBtn" style="width:100%;margin-top:10px;opacity:.5" disabled>Stake &rarr;</button>
+        </div>
+
+        <!-- Connected: wallet bar + stake button -->
+        <div id="connectedBar" style="display:none">
           <div class="conn-bar">
             <div class="conn-dot"></div>
             <div class="conn-info">
@@ -298,10 +314,17 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
             </div>
             <button class="conn-disconnect" id="disconnectBtn">Disconnect</button>
           </div>
+          <p class="step-hint" id="stakeHint" style="margin-top:14px">Send SI276 to the staking address, notify us, and admin will confirm your stake.</p>
+          <button class="sbtn sbtn-primary" id="openBtnConnected" style="width:100%;margin-top:8px">Stake &rarr;</button>
         </div>
+      </div>
 
-        <p class="step-hint" id="stakeHint">Send SI276 to the staking address, notify us, and admin will confirm your stake.</p>
-        <button class="sbtn sbtn-primary" id="openBtn" style="width:100%;margin-top:8px">Stake &rarr;</button>
+      <!-- Connect wallet panel -->
+      <div id="pConnect" style="display:none">
+        <p class="step-hint">Enter your wallet address and choose a username to connect.</p>
+        <div class="sfield"><label for="cwWalletIn">Wallet address</label><input id="cwWalletIn" type="text" placeholder="0x… or your address" autocomplete="off" spellcheck="false"></div>
+        <div class="sfield"><label for="cwUnameIn">Username</label><input id="cwUnameIn" type="text" placeholder="e.g. satoshi" autocomplete="off" spellcheck="false"></div>
+        <div class="sbtns"><button class="sbtn sbtn-ghost" id="cwCancelBtn">Cancel</button><button class="sbtn cw-btn" id="cwConfirmBtn">Connect &rarr;</button></div>
       </div>
 
       <!-- Balance modal -->
@@ -458,21 +481,26 @@ function getSession(){
   return wallet && uname ? {wallet, uname} : null;
 }
 function applySession(session){
-  if(!session) return;
+  if(!session){
+    $("notConnected").style.display="block";
+    $("connectedBar").style.display="none";
+    $("balanceBtn").textContent="YOUR BALANCE";
+    return;
+  }
   $("walletIn").value = session.wallet;
   $("unameIn").value  = session.uname;
-  $("connectedBar").style.display = "block";
+  $("notConnected").style.display="none";
+  $("connectedBar").style.display="block";
   $("connName").textContent   = session.uname;
   $("connWallet").textContent = session.wallet.length > 24
     ? session.wallet.slice(0,10)+"…"+session.wallet.slice(-6)
     : session.wallet;
-  $("stakeHint").textContent  = "You're connected as "+session.uname+". Send SI276 and hit Stake to submit.";
-  // update hero balance button label
+  $("stakeHint").textContent  = "Connected as "+session.uname+". Send SI276 and hit Stake to submit.";
   $("balanceBtn").textContent = session.uname+"'s Balance";
 }
 // Load session immediately
 const existingSession = getSession();
-if(existingSession) applySession(existingSession);
+applySession(existingSession);
 
 async function loadBin(){
   try{
@@ -509,10 +537,43 @@ $("copyAddrBtn").addEventListener("click",()=>copyText(STAKING_ADDRESS));
 $("copyPendingBtn").addEventListener("click",()=>copyText(STAKING_ADDRESS));
 
 // Panels
-const PANELS=["pIdle","pStepB","pStepC","pPending"];
-function show(id){ PANELS.forEach(p=>$(p).style.display=p===id?"block":"none"); }
+const PANELS=["pIdle","pStepB","pStepC","pPending","pConnect"];
+function show(id){
+  PANELS.forEach(p=>$(p).style.display=p===id?"block":"none");
+  if($("balModal")) $("balModal").style.display="none";
+}
 
-$("openBtn").addEventListener("click",()=>{ $("balModal").style.display="none"; show("pStepB"); $("stake").scrollIntoView({behavior:"smooth"}); });
+// disabled stake button — prompt to connect
+$("openBtn").addEventListener("click",()=>{
+  show("pConnect");
+  $("stake").scrollIntoView({behavior:"smooth"});
+});
+
+// connected stake button
+$("openBtnConnected").addEventListener("click",()=>{
+  show("pStepB");
+  $("stake").scrollIntoView({behavior:"smooth"});
+});
+
+// connect wallet panel
+$("connectWalletBtn").addEventListener("click",()=>{
+  show("pConnect");
+  $("stake").scrollIntoView({behavior:"smooth"});
+});
+$("cwCancelBtn").addEventListener("click",()=>show("pIdle"));
+$("cwConfirmBtn").addEventListener("click",()=>{
+  const w=$("cwWalletIn").value.trim(), u=$("cwUnameIn").value.trim();
+  if(!w) return toast("Enter your wallet address");
+  if(!u) return toast("Choose a username");
+  // save session and pre-fill form
+  saveSession(w,u);
+  applySession({wallet:w,uname:u});
+  $("walletIn").value=w; $("unameIn").value=u;
+  show("pIdle");
+  toast("Wallet connected ✓");
+  loadMyBalance();
+});
+
 $("cancelBtn").addEventListener("click",()=>show("pIdle"));
 $("backBtn").addEventListener("click",()=>show("pStepB"));
 $("nextBtn").addEventListener("click",()=>{
@@ -558,29 +619,18 @@ $("closeBalModal").addEventListener("click",()=>{
 $("unstakeBtn").addEventListener("click",()=>{
   toast("Contact admin to unstake your SI276.");
 });
-if($("modalDisconnectBtn")) $("modalDisconnectBtn").addEventListener("click",()=>{
+
+function doDisconnect(){
   clearSession();
-  $("connectedBar").style.display="none";
   $("walletIn").value=""; $("unameIn").value=""; $("amountIn").value="";
-  $("stakeHint").textContent="Send SI276 to the staking address, notify us, and admin will confirm your stake.";
-  $("balanceBtn").textContent="YOUR BALANCE";
-  $("balModal").style.display="none";
-  $("pIdle").style.display="block";
+  $("bmStaked").textContent="—"; $("bmTotal").textContent="0 SI276";
+  $("bmR1").textContent="0 SI276"; $("bmR2").textContent="0 SI276";
+  applySession(null);
+  show("pIdle");
   toast("Disconnected");
-});
-$("disconnectBtn").addEventListener("click",()=>{
-  clearSession();
-  $("connectedBar").style.display="none";
-  $("walletIn").value="";
-  $("unameIn").value="";
-  $("amountIn").value="";
-  $("stakeHint").textContent="Send SI276 to the staking address, notify us, and admin will confirm your stake.";
-  $("balanceBtn").textContent="YOUR BALANCE";
-  $("bmStaked").textContent="0 SI276";
-  $("bmR1").textContent="0 SI276";
-  $("bmR2").textContent="0 SI276";
-  toast("Disconnected");
-});
+}
+$("disconnectBtn").addEventListener("click", doDisconnect);
+if($("modalDisconnectBtn")) $("modalDisconnectBtn").addEventListener("click", doDisconnect);
 
 // Compute estimated rewards based on stake amount + days staked
 function calcRewards(amount, submittedAt){
