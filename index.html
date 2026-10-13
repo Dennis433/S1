@@ -80,7 +80,10 @@ section{padding:84px 24px}
 .bm-addr{font-size:.78rem;color:#5a7a62;font-family:monospace}
 .bm-conn-tag{padding:5px 14px;border-radius:8px;border:1.5px solid #00e88a;color:#00e88a;font:700 .78rem "Barlow",sans-serif;letter-spacing:.04em;background:transparent;cursor:default}
 .bm-total-lbl{font:700 .68rem "Barlow",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4a6a52;text-align:center;margin-bottom:8px}
-.bm-total-val{font:700 2.4rem "Barlow",sans-serif;color:#00e88a;text-align:center;line-height:1;margin-bottom:8px}
+.bm-total-val{font:700 2.4rem "Barlow",sans-serif;color:#00e88a;text-align:center;line-height:1;margin-bottom:4px}
+.bm-total-usd{font:700 1.5rem "Barlow",sans-serif;color:#fff;text-align:center;margin-bottom:10px;letter-spacing:.01em}
+.bm-amount-usd{font:600 .85rem "Outfit",sans-serif;color:#4a7a5a}
+.bm-price-ticker{font:600 .72rem "Outfit",sans-serif;color:#00e88a;letter-spacing:0;text-transform:none;float:right}
 .bm-connected-line{display:flex;align-items:center;justify-content:center;gap:6px;font-size:.85rem;color:#5a7a62;margin-bottom:18px}
 .bm-connected-line strong{color:#00e88a}
 .bm-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -345,6 +348,7 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
             </div>
             <div class="bm-total-lbl">TOTAL BALANCE</div>
             <div class="bm-total-val" id="bmTotal">0 SI276</div>
+            <div class="bm-total-usd" id="bmTotalUsd">$0.00</div>
             <div class="bm-connected-line">Connected to <strong>SI276</strong></div>
             <div class="bm-actions">
               <div class="bm-action"><div class="bm-action-icon">↑</div><div class="bm-action-lbl">Send</div></div>
@@ -356,7 +360,7 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
 
           <!-- token balances -->
           <div class="bm-body">
-            <div class="bm-section-title">TOKEN BALANCES</div>
+            <div class="bm-section-title">TOKEN BALANCES <span class="bm-price-ticker" id="bmPriceTicker"></span></div>
             <div class="bm-row">
               <div class="bm-icon bm-icon-avail">SI</div>
               <div class="bm-info">
@@ -374,7 +378,7 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
               </div>
               <div class="bm-amount bm-amount-green">
                 <span id="bmStaked">—</span><br>
-                <span class="bm-amount-sub" id="bmStakedSub">—</span>
+                <span class="bm-amount-usd" id="bmStakedUsd">$—</span>
               </div>
             </div>
 
@@ -623,8 +627,10 @@ $("unstakeBtn").addEventListener("click",()=>{
 function doDisconnect(){
   clearSession();
   $("walletIn").value=""; $("unameIn").value=""; $("amountIn").value="";
-  $("bmStaked").textContent="—"; $("bmTotal").textContent="0 SI276";
-  $("bmR1").textContent="0 SI276"; $("bmR2").textContent="0 SI276";
+  $("bmStaked").textContent="—"; $("bmStakedUsd").textContent="$—";
+  $("bmTotal").textContent="0 SI276"; $("bmTotalUsd").textContent="$0.00";
+  $("bmR1").textContent="0 SI276"; $("bmR1sub").textContent="—";
+  $("bmR2").textContent="0 SI276"; $("bmR2sub").textContent="—";
   applySession(null);
   show("pIdle");
   toast("Disconnected");
@@ -633,29 +639,55 @@ $("disconnectBtn").addEventListener("click", doDisconnect);
 if($("modalDisconnectBtn")) $("modalDisconnectBtn").addEventListener("click", doDisconnect);
 
 // Compute estimated rewards based on stake amount + days staked
-function calcRewards(amount, submittedAt){
-  if(!amount||!submittedAt) return {r1:0,r2:0};
-  const days = Math.floor((Date.now()-submittedAt)/86400000);
+const SI276_CA = "HMYd9tosnUXuNHmq7pXmoePRVBLBBjA3JBfydq6upump";
+let cachedPrice = null;
+let lastPriceFetch = 0;
+
+async function fetchTokenPrice(){
+  // cache for 60s
+  if(cachedPrice !== null && Date.now()-lastPriceFetch < 60000) return cachedPrice;
+  try{
+    const r = await fetch("https://api.dexscreener.com/latest/dex/tokens/"+SI276_CA);
+    const j = await r.json();
+    const pairs = (j.pairs||[]).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0));
+    const price = pairs.length ? parseFloat(pairs[0].priceUsd||0) : 0;
+    cachedPrice = price;
+    lastPriceFetch = Date.now();
+    return price;
+  }catch(e){ console.warn("price fetch failed",e); return cachedPrice||0; }
+}
+
+function fmtUsd(val){
+  if(!val && val!==0) return "$—";
+  if(val>=1000) return "$"+val.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+  if(val>=1) return "$"+val.toFixed(2);
+  return "$"+val.toFixed(6);
+}
+
+function calcRewards(amount, sinceTs){
+  if(!amount||!sinceTs) return {r1:0,r2:0};
+  const days = Math.floor((Date.now()-sinceTs)/86400000);
   const amt = parseFloat(amount)||0;
   const m1days = Math.min(days, 180);
   const m2days = Math.max(0, Math.min(days-180, 180));
-  return { r1: (amt * 0.001 * m1days).toFixed(2), r2: (amt * 0.0025 * m2days).toFixed(2) };
+  return { r1: (amt*0.001*m1days).toFixed(2), r2: (amt*0.0025*m2days).toFixed(2) };
 }
 
-// Load balance on page load
 async function loadMyBalance(){
   try{
-    const data = await loadBin();
+    const [data, price] = await Promise.all([loadBin(), fetchTokenPrice()]);
     const stake = (data.stakes||{})[myId];
     const session = getSession();
 
-    // populate profile header from session
+    // update price ticker
+    if($("bmPriceTicker")) $("bmPriceTicker").textContent = price ? "1 SI276 = "+fmtUsd(price) : "";
+
+    // profile header
     if(session){
-      const initial = session.uname.charAt(0).toUpperCase();
-      $("bmAvatar").textContent = initial;
+      $("bmAvatar").textContent = session.uname.charAt(0).toUpperCase();
       $("bmUname").textContent  = session.uname;
       const w = session.wallet;
-      $("bmAddr").textContent   = w.length > 18 ? w.slice(0,10)+"…"+w.slice(-6) : w;
+      $("bmAddr").textContent   = w.length>18 ? w.slice(0,10)+"…"+w.slice(-6) : w;
       $("bmConnTag").style.display = "inline-block";
       $("unstakeBtn").style.display = "block";
       $("modalDisconnectBtn").style.display = "block";
@@ -669,28 +701,39 @@ async function loadMyBalance(){
     }
 
     if(!stake){
-      $("bmStaked").textContent="0 SI276";
-      $("bmTotal").textContent ="0 SI276";
-      $("bmR1").textContent="0 SI276";
-      $("bmR2").textContent="0 SI276";
+      $("bmStaked").textContent   = "0 SI276";
+      $("bmStakedUsd").textContent= "$0.00";
+      $("bmTotal").textContent    = "0 SI276";
+      $("bmTotalUsd").textContent = "$0.00";
+      $("bmR1").textContent="0 SI276"; $("bmR1sub").textContent="$0.00";
+      $("bmR2").textContent="0 SI276"; $("bmR2sub").textContent="$0.00";
       return;
     }
+
     const isConfirmed = stake.status==="confirmed";
-    const amt = stake.amount||"0";
-    $("bmStaked").textContent    = isConfirmed ? amt+" SI276" : "Pending…";
-    $("bmStakedSub").textContent = isConfirmed ? "Locked in vault" : "Awaiting confirmation";
-    $("bmTotal").textContent     = isConfirmed ? amt+" SI276" : "Pending…";
+    const amt = parseFloat(stake.amount)||0;
+    const amtStr = amt ? amt.toLocaleString()+" SI276" : "Pending…";
+    const usdVal = amt * price;
+
+    $("bmStaked").textContent    = isConfirmed ? amtStr : "Pending…";
+    $("bmStakedUsd").textContent = isConfirmed && price ? fmtUsd(usdVal) : "—";
+    $("bmTotal").textContent     = isConfirmed ? amtStr : "Pending…";
+    $("bmTotalUsd").textContent  = isConfirmed && price ? fmtUsd(usdVal) : "—";
+
     if(isConfirmed && stake.amount){
       const {r1,r2} = calcRewards(stake.amount, stake.confirmedAt||stake.submittedAt||Date.now());
-      $("bmR1").textContent = r1+" SI276";
-      $("bmR2").textContent = r2+" SI276";
+      $("bmR1").textContent  = parseFloat(r1).toLocaleString()+" SI276";
+      $("bmR1sub").textContent = price ? fmtUsd(parseFloat(r1)*price) : "—";
+      $("bmR2").textContent  = parseFloat(r2).toLocaleString()+" SI276";
+      $("bmR2sub").textContent = price ? fmtUsd(parseFloat(r2)*price) : "—";
     } else {
-      $("bmR1").textContent="0 SI276";
-      $("bmR2").textContent="0 SI276";
+      $("bmR1").textContent="0 SI276"; $("bmR1sub").textContent="$0.00";
+      $("bmR2").textContent="0 SI276"; $("bmR2sub").textContent="$0.00";
     }
-    if(stake.wallet)  $("walletIn").value  = stake.wallet;
-    if(stake.uname)   $("unameIn").value   = stake.uname;
-    if(stake.amount)  $("amountIn").value  = stake.amount;
+
+    if(stake.wallet) $("walletIn").value = stake.wallet;
+    if(stake.uname)  $("unameIn").value  = stake.uname;
+    if(stake.amount) $("amountIn").value = stake.amount;
   }catch(e){ console.warn("loadMyBalance error",e); }
 }
 
