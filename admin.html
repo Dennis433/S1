@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SI276 Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Barlow:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08080f;--ink:#e6e8ea;--muted:#8a8d96;--violet:#7a2cf0;--violet-soft:#a24dff;--line:#22222c;--green:#2d6b2d;--green-light:#5dda5d;--orange:#e8a020;--orange-bg:#2a1a00;box-sizing:border-box}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Outfit",system-ui,sans-serif;font-weight:300;min-height:100svh}
+h2{margin:0;font-weight:400}
+header{background:#0d0d18;border-bottom:1px solid var(--line);padding:18px 28px;display:flex;align-items:center;gap:14px}
+.logo{font:700 1.5rem "Barlow",sans-serif;color:var(--violet-soft)}
+.badge{padding:4px 12px;border-radius:999px;background:#1a0a2e;border:1px solid var(--violet);color:var(--violet-soft);font:700 .75rem "Barlow",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.refresh-btn{margin-left:auto;padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--muted);font:600 .85rem "Barlow",sans-serif;cursor:pointer;transition:.2s}
+.refresh-btn:hover{border-color:var(--violet-soft);color:var(--ink)}
+main{max-width:900px;margin:0 auto;padding:40px 24px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:36px}
+.stat{background:#0d0d18;border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.sv{font:700 2rem "Barlow",sans-serif;color:var(--violet-soft);line-height:1}
+.sl{font-size:.9rem;color:var(--muted);margin-top:4px}
+.sec-title{font:700 .8rem "Barlow",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.fb{padding:8px 20px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--muted);font:600 .85rem "Barlow",sans-serif;cursor:pointer;transition:.2s}
+.fb.on,.fb:hover{border-color:var(--violet-soft);color:var(--ink)}
+.fb.on{background:#1a0a2e}
+.card{background:#0d0d18;border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:14px;border-left:3px solid transparent}
+.card.pending{border-left-color:#6b4400}
+.card.confirmed{border-left-color:var(--green)}
+.ct{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cn{font:700 1.1rem "Barlow",sans-serif}
+.tag{display:inline-block;padding:4px 12px;border-radius:999px;font:700 .75rem "Barlow",sans-serif;text-transform:uppercase}
+.tp{background:var(--orange-bg);border:1px solid #6b4400;color:var(--orange)}
+.tc{background:#1a3a1a;border:1px solid var(--green);color:var(--green-light)}
+.cw{font-size:.9rem;color:var(--muted);word-break:break-all;margin:8px 0 4px;font-family:monospace}
+.cm{font-size:.85rem;color:var(--muted)}
+.ca{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center}
+.sbtn{padding:12px 22px;border-radius:999px;font:700 .9rem "Barlow",sans-serif;letter-spacing:.04em;cursor:pointer;transition:.2s,transform .15s;border:0}
+.sbtn:active{transform:scale(.97)}
+.bc{background:#1a3a1a;border:1.5px solid var(--green);color:var(--green-light)}
+.bc:hover{background:#214821}
+.bg2{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.bg2:hover{border-color:var(--violet-soft)}
+.ai{background:#08080f;border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--ink);font:1rem "Outfit",sans-serif;width:130px;outline:none}
+.ai:focus{border-color:var(--violet-soft)}
+.al{font-size:.85rem;color:var(--muted);align-self:center}
+.empty{padding:40px;text-align:center;color:var(--muted);font-size:1.1rem}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);opacity:0;z-index:30;padding:12px 22px;border-radius:999px;background:#e6e8ea;color:#000;font:700 1rem "Barlow",sans-serif;transition:.25s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.last-updated{font-size:.8rem;color:var(--muted);margin-bottom:16px}
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">SI276</span>
+  <span class="badge">Admin</span>
+  <button class="refresh-btn" id="refreshBtn">↻ Refresh</button>
+</header>
+<main>
+  <div class="stats">
+    <div class="stat"><div class="sv" id="sT">—</div><div class="sl">Total</div></div>
+    <div class="stat"><div class="sv" id="sP">—</div><div class="sl">Pending</div></div>
+    <div class="stat"><div class="sv" id="sC">—</div><div class="sl">Confirmed</div></div>
+  </div>
+  <div class="sec-title">Stake submissions</div>
+  <div class="last-updated" id="lastUpdated"></div>
+  <div class="filters">
+    <button class="fb on" data-f="all">All</button>
+    <button class="fb" data-f="pending">Pending</button>
+    <button class="fb" data-f="confirmed">Confirmed</button>
+  </div>
+  <div id="list"><div class="empty">Loading…</div></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG — same keys as index.html ──────────────────────────────────────
+const JSONBIN_API_KEY = "$2a$10$SzP77n9ZcrRQgwL2K4qS0umhLfdYaYc4rckObDuR0lWDUa5dqNwTm";
+const JSONBIN_BIN_ID  = "6acdf658ffd5d1605366ac0a";
+// ─────────────────────────────────────────────────────────────────────────
+
+const $ = id => document.getElementById(id);
+const API   = "https://api.jsonbin.io/v3/b/";
+const RHDRS = { "X-Master-Key": JSONBIN_API_KEY };
+const WHDRS = { "Content-Type":"application/json", "X-Master-Key": JSONBIN_API_KEY };
+
+let all = [], filter = "all", binData = {stakes:{}};
+let toastT;
+function toast(msg){ const e=$("toast"); e.textContent=msg; e.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>e.classList.remove("show"),2200); }
+function esc(s){ const d=document.createElement("div"); d.textContent=String(s||""); return d.innerHTML; }
+function ago(ms){
+  const s=Math.floor((Date.now()-ms)/1000);
+  if(s<60) return "just now";
+  if(s<3600) return Math.floor(s/60)+"m ago";
+  if(s<86400) return Math.floor(s/3600)+"h ago";
+  return Math.floor(s/86400)+"d ago";
+}
+
+async function loadBin(){
+  const r = await fetch(API+JSONBIN_BIN_ID+"/latest",{headers:RHDRS});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  const j = await r.json();
+  return j.record || {stakes:{}};
+}
+async function saveBin(data){
+  const r = await fetch(API+JSONBIN_BIN_ID,{method:"PUT",headers:WHDRS,body:JSON.stringify(data)});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+}
+
+function render(){
+  const shown = filter==="all" ? all : all.filter(s=>s.status===filter);
+  const el=$("list");
+  if(!shown.length){ el.innerHTML=`<div class="empty">No ${filter==="all"?"submissions":filter} yet.</div>`; return; }
+  el.innerHTML = shown.map(s=>`
+    <div class="card ${s.status}">
+      <div class="ct">
+        <span class="cn">${esc(s.uname||"—")}</span>
+        <span class="tag ${s.status==="confirmed"?"tc":"tp"}">${s.status==="confirmed"?"✓ Confirmed":"⏳ Pending"}</span>
+      </div>
+      <div class="cw">${esc(s.wallet||"—")}</div>
+      <div class="cm">Submitted ${s.submittedAt?ago(s.submittedAt):"unknown"}${s.confirmedAt?" · Confirmed "+ago(s.confirmedAt):""}</div>
+      ${s.status==="confirmed" ? `<div class="cm" style="color:#5dda5d;margin-top:4px">Staked: ${esc(s.amount||"")} SI276</div>` : ""}
+      ${s.status==="pending" ? `
+      ${s.amount?`<div class="cm" style="color:#a24dff;margin-top:4px">User wants to stake: <strong style="color:#e6e8ea">${esc(s.amount)} SI276</strong></div>`:""}
+      <div class="ca">
+        <input class="ai" id="amt-${s.id}" type="number" min="0" placeholder="Amount" value="${esc(s.amount||"")}">
+        <span class="al">SI276</span>
+        <button class="sbtn bc" onclick="confirmStake('${s.id}')">Confirm ✓</button>
+      </div>` : `
+      <div class="ca">
+        <button class="sbtn bg2" onclick="revert('${s.id}')">Revert to pending</button>
+      </div>`}
+    </div>
+  `).join("");
+}
+
+function updateStats(){
+  const t=all.length, p=all.filter(s=>s.status==="pending").length;
+  $("sT").textContent=t; $("sP").textContent=p; $("sC").textContent=t-p;
+  $("lastUpdated").textContent="Last updated: "+new Date().toLocaleTimeString();
+}
+
+async function reload(){
+  $("refreshBtn").textContent="Loading…";
+  try{
+    binData = await loadBin();
+    const stakes = binData.stakes||{};
+    all = Object.entries(stakes).map(([id,v])=>({id,...v}));
+    all.sort((a,b)=>(b.submittedAt||0)-(a.submittedAt||0));
+    updateStats(); render();
+  }catch(e){ $("list").innerHTML=`<div class="empty">Error: ${e.message}</div>`; toast("Load failed: "+e.message); }
+  $("refreshBtn").textContent="↻ Refresh";
+}
+
+async function confirmStake(id){
+  const el=document.getElementById("amt-"+id);
+  const amount=el?el.value.trim():"";
+  if(!amount){ toast("Enter the staked amount first"); el&&el.focus(); return; }
+  try{
+    const data = await loadBin();
+    if(!data.stakes||!data.stakes[id]){ toast("Stake not found"); return; }
+    data.stakes[id] = {...data.stakes[id], status:"confirmed", amount, confirmedAt:Date.now()};
+    await saveBin(data);
+    toast("Confirmed ✓");
+    await reload();
+  }catch(e){ toast("Error: "+e.message); }
+}
+
+async function revert(id){
+  try{
+    const data = await loadBin();
+    if(!data.stakes||!data.stakes[id]){ toast("Stake not found"); return; }
+    data.stakes[id] = {...data.stakes[id], status:"pending", confirmedAt:null};
+    await saveBin(data);
+    toast("Reverted to pending");
+    await reload();
+  }catch(e){ toast("Error: "+e.message); }
+}
+
+document.querySelectorAll(".fb").forEach(b=>{
+  b.addEventListener("click",()=>{
+    filter=b.dataset.f;
+    document.querySelectorAll(".fb").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    render();
+  });
+});
+
+$("refreshBtn").addEventListener("click", reload);
+
+// Auto-refresh every 30s
+reload();
+setInterval(reload, 30000);
+</script>
+</body>
+</html>
