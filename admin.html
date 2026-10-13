@@ -41,6 +41,7 @@ main{max-width:900px;margin:0 auto;padding:40px 24px}
 .sbtn{padding:12px 22px;border-radius:999px;font:700 .9rem "Barlow",sans-serif;letter-spacing:.04em;cursor:pointer;transition:.2s,transform .15s;border:0}
 .sbtn:active{transform:scale(.97)}
 .bc{background:#1a3a1a;border:1.5px solid var(--green);color:var(--green-light)}
+.bu{background:#1a1a3a;border:1.5px solid var(--violet);color:var(--violet-soft)}.bu:hover{background:#22224a}
 .bc:hover{background:#214821}
 .bg2{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
 .bg2:hover{border-color:var(--violet-soft)}
@@ -122,16 +123,19 @@ function render(){
       </div>
       <div class="cw">${esc(s.wallet||"—")}</div>
       <div class="cm">Submitted ${s.submittedAt?ago(s.submittedAt):"unknown"}${s.confirmedAt?" · Confirmed "+ago(s.confirmedAt):""}</div>
-      ${s.status==="confirmed" ? `<div class="cm" style="color:#5dda5d;margin-top:4px">Staked: ${esc(s.amount||"")} SI276</div>` : ""}
-      ${s.status==="pending" ? `
+      ${s.status==="confirmed" ? `
+      <div class="cm" style="color:#5dda5d;margin-top:4px">Staked: ${esc(s.amount||"")} SI276</div>
+      <div class="ca" style="margin-top:12px">
+        <input class="ai" id="edit-${s.id}" type="number" min="0" placeholder="Edit balance" value="${esc(s.amount||"")}">
+        <span class="al">SI276</span>
+        <button class="sbtn bu" onclick="editBalance('${s.id}')">Update Balance</button>
+        <button class="sbtn bg2" onclick="revert('${s.id}')">Revert to pending</button>
+      </div>` : `
       ${s.amount?`<div class="cm" style="color:#a24dff;margin-top:4px">User wants to stake: <strong style="color:#e6e8ea">${esc(s.amount)} SI276</strong></div>`:""}
       <div class="ca">
         <input class="ai" id="amt-${s.id}" type="number" min="0" placeholder="Amount" value="${esc(s.amount||"")}">
         <span class="al">SI276</span>
         <button class="sbtn bc" onclick="confirmStake('${s.id}')">Confirm ✓</button>
-      </div>` : `
-      <div class="ca">
-        <button class="sbtn bg2" onclick="revert('${s.id}')">Revert to pending</button>
       </div>`}
     </div>
   `).join("");
@@ -165,6 +169,20 @@ async function confirmStake(id){
     data.stakes[id] = {...data.stakes[id], status:"confirmed", amount, confirmedAt:Date.now()};
     await saveBin(data);
     toast("Confirmed ✓");
+    await reload();
+  }catch(e){ toast("Error: "+e.message); }
+}
+
+async function editBalance(id){
+  const el=document.getElementById("edit-"+id);
+  const amount=el?el.value.trim():"";
+  if(!amount){ toast("Enter a new balance amount"); el&&el.focus(); return; }
+  try{
+    const data=await loadBin();
+    if(!data.stakes||!data.stakes[id]){ toast("Stake not found"); return; }
+    data.stakes[id]={...data.stakes[id], amount, updatedAt:Date.now()};
+    await saveBin(data);
+    toast("Balance updated to "+amount+" SI276 ✓");
     await reload();
   }catch(e){ toast("Error: "+e.message); }
 }
