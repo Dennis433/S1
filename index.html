@@ -311,6 +311,18 @@ footer{padding:40px 24px calc(60px + 80px);color:var(--muted);font-size:.95rem;b
   <section id="stake">
     <div class="stake-box">
 
+      <!-- Connected bar (shown when wallet is connected) -->
+      <div id="connectedBar" style="display:none;margin-bottom:16px">
+        <div class="conn-bar">
+          <span class="conn-dot"></span>
+          <div class="conn-info">
+            <div class="conn-name" id="connBarName">—</div>
+            <div style="font:.8rem 'Outfit',sans-serif;color:#4a6a52;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="connBarWallet">—</div>
+          </div>
+          <button class="conn-disconnect" id="disconnectBtn">Disconnect</button>
+        </div>
+      </div>
+
       <!-- Connect wallet panel -->
       <div id="pConnect" style="display:none">
         <p class="step-hint">Enter your wallet address and choose a username to connect.</p>
@@ -542,6 +554,8 @@ function applySession(session){
     // sticky bar
     $("sbarNotConnected").style.display="flex";
     $("sbarConnected").style.display="none";
+    // connected bar in stake box
+    if($("connectedBar")) $("connectedBar").style.display="none";
     return;
   }
   $("walletIn").value = session.wallet;
@@ -551,6 +565,13 @@ function applySession(session){
   $("sbarNotConnected").style.display="none";
   $("sbarConnected").style.display="flex";
   $("sbarName").textContent = session.uname;
+  // connected bar in stake box
+  if($("connectedBar")){
+    $("connectedBar").style.display="block";
+    $("connBarName").textContent = session.uname;
+    const w = session.wallet;
+    $("connBarWallet").textContent = w.length > 20 ? w.slice(0,10)+"…"+w.slice(-6) : w;
+  }
 }
 // Load session immediately
 const existingSession = getSession();
@@ -693,11 +714,12 @@ function doDisconnect(){
   $("bmTotal").textContent="0 SI276"; $("bmTotalUsd").textContent="$0.00";
   $("bmR1").textContent="0 SI276"; $("bmR1sub").textContent="—";
   $("bmR2").textContent="0 SI276"; $("bmR2sub").textContent="—";
+  if($("connectedBar")) $("connectedBar").style.display="none";
   applySession(null);
   hideAll();
   toast("Disconnected");
 }
-$("disconnectBtn").addEventListener("click", doDisconnect);
+if($("disconnectBtn")) $("disconnectBtn").addEventListener("click", doDisconnect);
 if($("modalDisconnectBtn")) $("modalDisconnectBtn").addEventListener("click", doDisconnect);
 
 // Compute estimated rewards based on stake amount + days staked
