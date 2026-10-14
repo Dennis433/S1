@@ -186,11 +186,13 @@ async function reload(){
 
 async function confirmStake(id){
   const el=document.getElementById("amt-"+id);
-  const amount=el?el.value.trim():"";
-  if(!amount){ toast("Enter the staked amount first"); el&&el.focus(); return; }
+  const inputVal=el?el.value.trim():"";
   try{
     const data = await loadBin();
     if(!data.stakes||!data.stakes[id]){ toast("Stake not found"); return; }
+    // Use admin input if provided, otherwise fall back to user-submitted amount
+    const amount = inputVal || data.stakes[id].amount || "";
+    if(!amount){ toast("No amount found — enter it manually"); el&&el.focus(); return; }
     data.stakes[id] = {...data.stakes[id], status:"confirmed", amount, confirmedAt:Date.now()};
     await saveBin(data);
     toast("Confirmed ✓");
