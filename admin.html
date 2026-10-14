@@ -9,18 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Barlow:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#08080f;--ink:#e6e8ea;--muted:#8a8d96;--violet:#7a2cf0;--violet-soft:#a24dff;--line:#22222c;--green:#2d6b2d;--green-light:#5dda5d;--orange:#e8a020;--orange-bg:#2a1a00;box-sizing:border-box}
-/* login */
-.login-wrap{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px}
-.login-box{width:100%;max-width:380px;background:#0d0d18;border:1px solid var(--line);border-radius:22px;padding:36px 28px}
-.login-logo{font:700 1.8rem "Barlow",sans-serif;color:var(--violet-soft);margin-bottom:4px}
-.login-sub{font-size:.9rem;color:var(--muted);margin-bottom:28px}
-.lfield{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
-.lfield label{font:700 .8rem "Barlow",sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-.lfield input{background:#08080f;border:1.5px solid var(--line);border-radius:10px;padding:13px 16px;color:var(--ink);font:1rem "Outfit",sans-serif;outline:none;transition:border-color .2s}
-.lfield input:focus{border-color:var(--violet-soft)}
-.login-btn{width:100%;margin-top:8px;padding:14px;border-radius:999px;background:var(--violet);border:0;color:#fff;font:700 1rem "Barlow",sans-serif;letter-spacing:.05em;cursor:pointer;transition:.2s}
-.login-btn:hover{background:var(--violet-soft)}
-.login-err{margin-top:12px;font-size:.9rem;color:#ff6b6b;min-height:1.2em;text-align:center}
+
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Outfit",system-ui,sans-serif;font-weight:300;min-height:100svh}
 h2{margin:0;font-weight:400}
@@ -70,24 +59,6 @@ main{max-width:900px;margin:0 auto;padding:40px 24px}
 </style>
 </head>
 <body>
-<!-- Login overlay -->
-<div class="login-wrap" id="loginWrap">
-  <div class="login-box">
-    <div class="login-logo">SI276</div>
-    <div class="login-sub">Admin access only</div>
-    <div class="lfield">
-      <label for="loginUser">Username</label>
-      <input id="loginUser" type="text" autocomplete="username" autocorrect="off" autocapitalize="off" spellcheck="false">
-    </div>
-    <div class="lfield">
-      <label for="loginPass">Password</label>
-      <input id="loginPass" type="password" autocomplete="current-password">
-    </div>
-    <button class="login-btn" id="loginBtn">Sign in →</button>
-    <div class="login-err" id="loginErr"></div>
-  </div>
-</div>
-
 <header>
   <span class="logo">SI276</span>
   <span class="badge">Admin</span>
@@ -113,41 +84,7 @@ main{max-width:900px;margin:0 auto;padding:40px 24px}
 <div class="toast" id="toast"></div>
 
 <script>
-// ── LOGIN ─────────────────────────────────────────────────────────────────
-(function(){
-  const CORRECT_USER = "ZeeDom";
-  const CORRECT_PASS = "ZeeDee55001199";
-  const SESSION_KEY  = "si276_admin_auth";
 
-  function isAuthed(){ return sessionStorage.getItem(SESSION_KEY)==="1"; }
-  function unlock(){
-    sessionStorage.setItem(SESSION_KEY,"1");
-    document.getElementById("loginWrap").style.display="none";
-  }
-
-  function attempt(){
-    const u   = document.getElementById("loginUser").value.trim();
-    const p   = document.getElementById("loginPass").value.trim();
-    const err = document.getElementById("loginErr");
-    if(!u||!p){ err.textContent="Enter username and password."; return; }
-    if(u===CORRECT_USER && p===CORRECT_PASS){
-      err.textContent="";
-      unlock();
-    } else {
-      err.textContent="Incorrect username or password.";
-      document.getElementById("loginPass").value="";
-      document.getElementById("loginPass").focus();
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded",()=>{
-    if(isAuthed()){ document.getElementById("loginWrap").style.display="none"; }
-    else { document.getElementById("loginUser").focus(); }
-    document.getElementById("loginBtn").addEventListener("click", attempt);
-    document.getElementById("loginPass").addEventListener("keydown", e=>{ if(e.key==="Enter") attempt(); });
-    document.getElementById("loginUser").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("loginPass").focus(); });
-  });
-})();
 // ── CONFIG — same keys as index.html ──────────────────────────────────────
 const JSONBIN_API_KEY = "$2a$10$SzP77n9ZcrRQgwL2K4qS0umhLfdYaYc4rckObDuR0lWDUa5dqNwTm";
 const JSONBIN_BIN_ID  = "6acdf658ffd5d1605366ac0a";
