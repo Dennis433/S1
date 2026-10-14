@@ -69,28 +69,61 @@ section{padding:84px 24px}
 .bb-text{flex:1;display:flex;flex-direction:column;gap:2px}
 .bb-title{font:700 .8rem "Barlow",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .bb-val{font:700 1.5rem "Barlow",sans-serif;color:var(--violet-soft)}
-/* balance modal */
-.bm-section-title{font:700 .72rem "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.bm-row{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
-.bm-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 .85rem "Barlow",sans-serif;color:#fff;flex-shrink:0}
-.bm-icon-gold{background:linear-gradient(135deg,#c8860a,#f5b942)}
-.bm-icon-violet{background:linear-gradient(135deg,#7a2cf0,#a24dff)}
+/* balance modal — green-on-dark (TimeVault style) */
+.bm-wrap{border-radius:20px;overflow:hidden;background:#0c150f;border:1.5px solid #1a3a22}
+.bm-header{background:#0c150f;border-bottom:1px solid #1a3a22;padding:22px 20px 20px}
+.bm-top-row{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.bm-avatar{width:44px;height:44px;border-radius:50%;background:#0f3320;border:2px solid #00e88a;display:flex;align-items:center;justify-content:center;font:700 1.1rem "Barlow",sans-serif;color:#00e88a;flex-shrink:0}
+.bm-id{flex:1}
+.bm-uname{font:700 1rem "Barlow",sans-serif;color:#fff;margin-bottom:2px}
+.bm-addr-row{display:flex;align-items:center;gap:6px}
+.bm-addr{font-size:.78rem;color:#5a7a62;font-family:monospace}
+.bm-conn-tag{padding:5px 14px;border-radius:8px;border:1.5px solid #00e88a;color:#00e88a;font:700 .78rem "Barlow",sans-serif;letter-spacing:.04em;background:transparent;cursor:default}
+.bm-total-lbl{font:700 .68rem "Barlow",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4a6a52;text-align:center;margin-bottom:8px}
+.bm-total-usd{font:700 2.6rem "Barlow",sans-serif;color:#fff;text-align:center;line-height:1;margin-bottom:4px;letter-spacing:.01em}
+.bm-total-val{font:400 1rem "Outfit",sans-serif;color:#4a7a5a;text-align:center;margin-bottom:10px}
+.bm-amount-usd{font:600 .85rem "Outfit",sans-serif;color:#4a7a5a}
+.bm-price-ticker{font:600 .72rem "Outfit",sans-serif;color:#00e88a;letter-spacing:0;text-transform:none;float:right}
+.recv-title{font:700 1.1rem "Barlow",sans-serif;color:#fff;margin-bottom:16px}
+.recv-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.recv-step{display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:#5a7a62;line-height:1.4}
+.recv-step strong{color:#e6e8ea}
+.recv-num{width:22px;height:22px;border-radius:50%;background:#0f3320;border:1px solid #00c87a;color:#00e88a;font:700 .72rem "Barlow",sans-serif;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.recv-lbl{font:700 .7rem "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#4a6a52;margin-bottom:8px}
+.recv-addr{background:#081208;border:1.5px solid #1a4a28;border-radius:12px;padding:14px 16px;font:1rem "Outfit",monospace;color:#00e88a;word-break:break-all;line-height:1.5}
+.bm-connected-line{display:flex;align-items:center;justify-content:center;gap:6px;font-size:.85rem;color:#5a7a62;margin-bottom:18px}
+.bm-connected-line strong{color:#00e88a}
+.bm-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.bm-action{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:12px;background:#0f2016;border:1px solid #1a3a22;cursor:pointer;transition:.2s}
+.bm-action:hover{border-color:#00e88a}
+.bm-action-icon{width:36px;height:36px;border-radius:10px;background:#0f3320;border:1px solid #1a4a28;display:flex;align-items:center;justify-content:center;font-size:1rem;color:#00e88a}
+.bm-action-lbl{font:700 .72rem "Barlow",sans-serif;color:#5a7a62;letter-spacing:.04em}
+.bm-body{padding:0 0 4px;background:#0c150f}
+.bm-section-title{font:700 .68rem "Barlow",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4a6a52;padding:16px 20px 8px;display:flex;align-items:center;justify-content:space-between}
+.bm-section-arrow{color:#00e88a;font-size:1rem}
+.bm-row{display:flex;align-items:flex-start;gap:14px;padding:14px 20px;border-bottom:1px solid #0f2016}
+.bm-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 .8rem "Barlow",sans-serif;flex-shrink:0}
+.bm-icon-avail{background:#0f2016;border:1.5px solid #1a3a22;color:#4a6a52}
+.bm-icon-staked{background:#0f3320;border:1.5px solid #1a4a28;color:#00e88a}
 .bm-info{flex:1}
-.bm-name{font:700 1.05rem "Barlow",sans-serif;color:var(--ink)}
-.bm-sub{font-size:.85rem;color:var(--muted);margin-top:2px}
-.bm-apy-tag{display:inline-block;margin-top:6px;padding:4px 12px;border-radius:999px;background:#003d2a;border:1px solid #00c87a;color:#00e88a;font:700 .75rem "Barlow",sans-serif;letter-spacing:.04em}
-.bm-amount{font:700 1.1rem "Barlow",sans-serif;color:var(--ink);white-space:nowrap;padding-top:2px}
+.bm-name{font:700 1rem "Barlow",sans-serif;color:#fff}
+.bm-sub{font-size:.8rem;color:#4a6a52;margin-top:2px}
+.bm-apy-tag{display:inline-block;margin-top:5px;padding:3px 10px;border-radius:6px;background:#0f3320;border:1px solid #00c87a;color:#00e88a;font:700 .72rem "Barlow",sans-serif;letter-spacing:.04em}
+.bm-amount{font:700 1rem "Barlow",sans-serif;color:#4a6a52;white-space:nowrap;padding-top:2px;text-align:right}
 .bm-amount-green{color:#00e88a}
-.bm-reward-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
-.bm-reward-icon{width:32px;height:32px;border-radius:50%;background:#1a0a2e;border:1px solid var(--violet);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--violet-soft);flex-shrink:0}
+.bm-amount-sub{font-size:.78rem;color:#4a6a52;margin-top:2px}
+.bm-reward-row{display:flex;align-items:flex-start;gap:14px;padding:14px 20px;border-bottom:1px solid #0f2016}
+.bm-reward-icon{width:32px;height:32px;border-radius:50%;background:#0f3320;border:1px solid #1a4a28;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#00e88a;flex-shrink:0;margin-top:2px}
 .bm-reward-info{flex:1}
-.bm-reward-label{font:700 1rem "Barlow",sans-serif;color:var(--ink)}
-.bm-reward-sub{font-size:.85rem;color:var(--muted);margin-top:2px}
-.bm-reward-right{text-align:right}
+.bm-reward-label{font:700 .95rem "Barlow",sans-serif;color:#fff}
+.bm-reward-sub{font-size:.78rem;color:#4a6a52;margin-top:3px;line-height:1.4}
+.bm-reward-right{text-align:right;min-width:80px}
 .bm-reward-val{font:700 1rem "Barlow",sans-serif;color:#00e88a;display:block}
-.bm-reward-dash{font-size:.85rem;color:var(--muted)}
-.bm-unstake-btn{width:100%;margin-top:22px;padding:18px;border-radius:14px;background:#0d0d14;border:1.5px solid var(--line);color:var(--ink);font:700 1rem "Barlow",sans-serif;letter-spacing:.06em;cursor:pointer;transition:.2s}
-.bm-unstake-btn:hover{border-color:var(--violet-soft);color:var(--violet-soft)}
+.bm-reward-usd{font-size:.78rem;color:#4a6a52;margin-top:2px}
+.bm-disconnect-btn{display:block;width:100%;padding:16px;background:transparent;border:0;color:#c0392b;font:600 .9rem "Barlow",sans-serif;letter-spacing:.04em;cursor:pointer;transition:.2s;text-align:center}
+.bm-disconnect-btn:hover{color:#e74c3c}
+.bm-close-btn{display:block;width:calc(100% - 40px);margin:0 20px 20px;padding:13px;border-radius:10px;background:transparent;border:1.5px solid #1a3a22;color:#4a6a52;font:700 .85rem "Barlow",sans-serif;cursor:pointer;transition:.2s}
+.bm-close-btn:hover{color:#00e88a;border-color:#00e88a}
 .apy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
 .apy-card{background:linear-gradient(135deg,#12042a,#0d0d14);border:1px solid var(--violet);border-radius:20px;padding:24px 18px;text-align:center}
 .apy-val{font:700 2rem "Barlow",sans-serif;color:var(--violet-soft);line-height:1;margin-bottom:6px}
@@ -103,7 +136,7 @@ h2{margin:0 0 36px;font-weight:400;font-size:clamp(2rem,8vw,3rem);line-height:1.
 .card p{margin:0;font-size:1.3rem;line-height:1.5;color:var(--ink)}
 
 /* old-stake-placeholder */
-.stake-box{border:2px solid var(--line);border-radius:28px;padding:34px 26px;background:linear-gradient(160deg,#14052b,#000 70%)}
+.stake-box{border:2px solid var(--line);border-radius:28px;padding:34px 26px;background:linear-gradient(160deg,#14052b,#000 70%);max-width:520px;margin-inline:auto}
 .stake-box p{margin:0 0 4px;font-size:1.3rem}
 .sflow{display:none;flex-direction:column;gap:18px}
 .sflow.active{display:flex}
@@ -149,6 +182,12 @@ h2{margin:0 0 36px;font-weight:400;font-size:clamp(2rem,8vw,3rem);line-height:1.
 .sbtn-violet{background:var(--violet);color:#fff}
 .sbtn-violet:hover{background:var(--violet-soft)}
 .step-hint{font-size:1rem;color:var(--muted);margin:0 0 18px}
+.cw-btn{width:100%;padding:18px;border-radius:999px;background:linear-gradient(135deg,#7a2cf0,#a24dff);color:#fff;font:700 1rem "Barlow",sans-serif;letter-spacing:.06em;text-transform:uppercase;border:0;cursor:pointer;transition:.2s,transform .15s}
+.cw-btn:hover{background:linear-gradient(135deg,#a24dff,#c460ff)}
+.cw-btn:active{transform:scale(.97)}
+.cw-prompt{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;background:#0d0d14;border:1.5px dashed var(--line);margin-bottom:16px}
+.cw-prompt-icon{font-size:1.6rem;flex-shrink:0}
+.cw-prompt-text{font-size:.95rem;color:var(--muted);line-height:1.4}
 .conn-bar{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:14px;background:#0d0d14;border:1.5px solid #2d6b2d}
 .conn-dot{width:10px;height:10px;border-radius:50%;background:#00e88a;box-shadow:0 0 8px #00e88a;flex-shrink:0}
 .conn-info{flex:1;display:flex;flex-direction:column;gap:2px;overflow:hidden}
@@ -163,7 +202,18 @@ h2{margin:0 0 36px;font-weight:400;font-size:clamp(2rem,8vw,3rem);line-height:1.
 .pending-tag{display:inline-block;padding:4px 14px;border-radius:999px;background:#2a1a00;border:1.5px solid #6b4400;color:#e8a020;font:700 .8rem "Barlow",sans-serif;letter-spacing:.04em;margin-top:8px}
 .notice{padding:16px 18px;border-radius:14px;background:#0d0d14;border:2px solid var(--line);font-size:1.1rem;line-height:1.5;color:var(--muted);margin-bottom:16px}
 .notice strong{color:var(--ink)}
-footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px solid var(--line)}
+footer{padding:40px 24px calc(60px + 80px);color:var(--muted);font-size:.95rem;border-top:1px solid var(--line)}
+.sticky-bar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(8,8,20,.96);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center}
+#sbarNotConnected,#sbarConnected{display:flex;align-items:center;gap:12px;width:100%}
+.sticky-cw-btn{flex:1;padding:14px 20px;border-radius:999px;background:linear-gradient(135deg,#7a2cf0,#a24dff);color:#fff;font:700 1rem "Barlow",sans-serif;letter-spacing:.04em;border:0;cursor:pointer;transition:.2s}
+.sticky-cw-btn:hover{background:linear-gradient(135deg,#a24dff,#c460ff)}
+.sticky-stake-btn{padding:14px 28px;border-radius:999px;background:var(--pill);color:#0a0a0a;font:700 1rem "Barlow",sans-serif;letter-spacing:.04em;border:0;cursor:pointer;transition:.2s;white-space:nowrap}
+.sticky-stake-btn:hover{background:#fff}
+.sticky-disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
+.sbar-info{flex:1;display:flex;align-items:center;gap:8px;overflow:hidden}
+.sbar-name{font:700 .95rem "Barlow",sans-serif;color:#5dda5d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sticky-disc-btn{width:38px;height:38px;border-radius:50%;background:transparent;border:1.5px solid #6b4400;color:#e8a020;font-size:1rem;cursor:pointer;flex-shrink:0;transition:.2s}
+.sticky-disc-btn:hover{background:#2a1a00}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;z-index:30;padding:12px 22px;border-radius:999px;background:var(--pill);color:#000;font:700 1rem "Barlow",sans-serif;transition:.25s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
@@ -196,6 +246,7 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
   <div class="hero">
     <div class="waves" aria-hidden="true"></div>
     <button id="balanceBtn" class="ca" style="background:#0d0014;border-color:var(--violet-soft);color:var(--violet-soft);letter-spacing:.06em" aria-label="View your balance">YOUR BALANCE</button>
+    <button class="ca" id="ca" type="button" aria-label="Copy contract address" style="margin-top:12px">CA</button>
     <h1>SUPER<br>INTELLIGENCE<br>SI276</h1>
     <div class="hero-foot">
       <p>🧠 <strong>276% APY</strong> — Stake SI276 and earn while you sleep. Early stakers lock in the highest rates before the pool fills.</p>
@@ -259,107 +310,113 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
 
   <section id="stake">
     <div class="stake-box">
-      <h2>Stake SI276 &amp; earn rewards</h2>
 
-      <!-- idle -->
-      <div id="pIdle">
-        <button class="ca" id="ca" type="button" aria-label="Copy contract address" style="margin-bottom:18px">CA</button>
-
-        <!-- Connected wallet bar (shown when wallet saved in localStorage) -->
-        <div id="connectedBar" style="display:none;margin-bottom:18px">
-          <div class="conn-bar">
-            <div class="conn-dot"></div>
-            <div class="conn-info">
-              <span class="conn-name" id="connName"></span>
-              <span class="conn-wallet" id="connWallet"></span>
-            </div>
-            <button class="conn-disconnect" id="disconnectBtn">Disconnect</button>
-          </div>
-        </div>
-
-        <p class="step-hint" id="stakeHint">Send SI276 to the staking address, notify us, and admin will confirm your stake.</p>
-        <button class="sbtn sbtn-primary" id="openBtn" style="width:100%;margin-top:8px">Stake &rarr;</button>
+      <!-- Connect wallet panel -->
+      <div id="pConnect" style="display:none">
+        <p class="step-hint">Enter your wallet address and choose a username to connect.</p>
+        <div class="sfield"><label for="cwWalletIn">Wallet address</label><input id="cwWalletIn" type="text" placeholder="0x… or your address" autocomplete="off" spellcheck="false"></div>
+        <div class="sfield"><label for="cwUnameIn">Username</label><input id="cwUnameIn" type="text" placeholder="e.g. satoshi" autocomplete="off" spellcheck="false"></div>
+        <div class="sbtns"><button class="sbtn sbtn-ghost" id="cwCancelBtn">Cancel</button><button class="sbtn cw-btn" id="cwConfirmBtn">Connect &rarr;</button></div>
       </div>
 
       <!-- Balance modal -->
       <div id="balModal" style="display:none">
-        <div class="bm-section-title">TOKEN BALANCES</div>
-        <div class="bm-row">
-          <div class="bm-icon bm-icon-gold">SI</div>
-          <div class="bm-info">
-            <div class="bm-name">SI276</div>
-            <div class="bm-sub">Available balance</div>
-          </div>
-          <div class="bm-amount">0 SI276</div>
-        </div>
-        <div class="bm-row">
-          <div class="bm-icon bm-icon-violet">SI</div>
-          <div class="bm-info">
-            <div class="bm-name">Staked SI276</div>
-            <div class="bm-sub">Locked in vault</div>
-            <span class="bm-apy-tag">Earning 276% APY</span>
-          </div>
-          <div class="bm-amount bm-amount-green" id="bmStaked">— SI276</div>
-        </div>
+        <div class="bm-wrap">
 
-        <div class="bm-section-title" style="margin-top:24px">REWARDS BREAKDOWN</div>
-        <div class="bm-reward-row">
-          <div class="bm-reward-icon">↓</div>
-          <div class="bm-reward-info">
-            <div class="bm-reward-label">Months 1–6</div>
-            <div class="bm-reward-sub">0.1% daily</div>
+          <!-- header: avatar + name + connected tag + balance -->
+          <div class="bm-header">
+            <div class="bm-top-row">
+              <div class="bm-avatar" id="bmAvatar">?</div>
+              <div class="bm-id">
+                <div class="bm-uname" id="bmUname">—</div>
+                <div class="bm-addr-row">
+                  <span class="bm-addr" id="bmAddr">—</span>
+                </div>
+              </div>
+              <span class="bm-conn-tag" id="bmConnTag" style="display:none">Connected ✓</span>
+            </div>
+            <div class="bm-total-lbl">TOTAL BALANCE</div>
+            <div class="bm-total-usd" id="bmTotalUsd">$0.00</div>
+            <div class="bm-total-val" id="bmTotal">0 SI276</div>
+            <div class="bm-connected-line">Connected to <strong>SI276</strong></div>
+            <div class="bm-actions">
+              <div class="bm-action" id="modalReceiveBtn"><div class="bm-action-icon">↓</div><div class="bm-action-lbl">Receive</div></div>
+              <div class="bm-action" id="modalStakeBtn"><div class="bm-action-icon">🔒</div><div class="bm-action-lbl">Stake</div></div>
+              <div class="bm-action" id="modalUnstakeBtn"><div class="bm-action-icon">🔓</div><div class="bm-action-lbl">Unstake</div></div>
+              <div class="bm-action" id="modalSwapBtn"><div class="bm-action-icon">⇌</div><div class="bm-action-lbl">Swap</div></div>
+            </div>
           </div>
-          <div class="bm-reward-right">
-            <span class="bm-reward-val" id="bmR1">0 SI276</span>
-            <div class="bm-reward-dash">—</div>
+
+          <!-- receive panel -->
+          <div id="receivePanel" style="display:none">
+            <div class="bm-body" style="padding:20px">
+              <div class="recv-title">Deposit SI276</div>
+              <div class="recv-steps">
+                <div class="recv-step"><span class="recv-num">1</span>Copy the staking address below</div>
+                <div class="recv-step"><span class="recv-num">2</span>Send SI276 from your wallet to this address</div>
+                <div class="recv-step"><span class="recv-num">3</span>Tap <strong>Stake →</strong> and complete the form so admin can confirm your deposit</div>
+              </div>
+              <div class="recv-lbl">Staking address</div>
+              <div class="recv-addr">GhgeHAdz96RUsHbJoTRfXMRNH5ChLjuUWNqw56aYBgzT</div>
+              <div style="display:flex;gap:10px;margin-top:12px">
+                <button class="sbtn sticky-cw-btn" id="copyRecvBtn" style="font-size:.85rem;padding:13px 18px">Copy address</button>
+                <button class="sbtn sbtn-ghost" id="closeRecvBtn" style="flex:0 0 auto;padding:13px 18px;font-size:.85rem">Close</button>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="bm-reward-row">
-          <div class="bm-reward-icon">↓</div>
-          <div class="bm-reward-info">
-            <div class="bm-reward-label">Months 7–12</div>
-            <div class="bm-reward-sub">0.25% daily</div>
+
+          <!-- token balances -->
+          <div class="bm-body">
+            <div class="bm-section-title">TOKEN BALANCES <span class="bm-price-ticker" id="bmPriceTicker"></span></div>
+            <div class="bm-row">
+              <div class="bm-icon bm-icon-avail">SI</div>
+              <div class="bm-info">
+                <div class="bm-name">SI276</div>
+                <div class="bm-sub">Available balance</div>
+              </div>
+              <div class="bm-amount">—<br><span class="bm-amount-sub">—</span></div>
+            </div>
+            <div class="bm-row">
+              <div class="bm-icon bm-icon-staked">SI</div>
+              <div class="bm-info">
+                <div class="bm-name">Staked SI276</div>
+                <div class="bm-sub">Locked in vault</div>
+                <span class="bm-apy-tag">Earning 276% APY</span>
+              </div>
+              <div class="bm-amount bm-amount-green">
+                <span id="bmStaked">—</span><br>
+                <span class="bm-amount-usd" id="bmStakedUsd">$—</span>
+              </div>
+            </div>
+
+            <!-- rewards breakdown -->
+            <div class="bm-section-title">REWARDS BREAKDOWN <span class="bm-section-arrow">↓</span></div>
+            <div class="bm-reward-row">
+              <div class="bm-reward-icon">↓</div>
+              <div class="bm-reward-info">
+                <div class="bm-reward-label">Months 1–6</div>
+                <div class="bm-reward-sub">Estimated 0.1% daily accrual</div>
+              </div>
+              <div class="bm-reward-right">
+                <span class="bm-reward-val" id="bmR1">0 SI276</span>
+                <div class="bm-reward-usd" id="bmR1sub">—</div>
+              </div>
+            </div>
+            <div class="bm-reward-row">
+              <div class="bm-reward-icon">↓</div>
+              <div class="bm-reward-info">
+                <div class="bm-reward-label">Months 7–12</div>
+                <div class="bm-reward-sub">Target 276% APY · time-locked tiers</div>
+              </div>
+              <div class="bm-reward-right">
+                <span class="bm-reward-val" id="bmR2">0 SI276</span>
+                <div class="bm-reward-usd" id="bmR2sub">—</div>
+              </div>
+            </div>
+
+            <button class="bm-disconnect-btn" id="modalDisconnectBtn" style="display:none">Disconnect wallet</button>
+            <button class="bm-close-btn" id="closeBalModal">Close</button>
           </div>
-          <div class="bm-reward-right">
-            <span class="bm-reward-val" id="bmR2">0 SI276</span>
-            <div class="bm-reward-dash">—</div>
-          </div>
-        </div>
-
-        <button class="bm-unstake-btn" id="unstakeBtn">↓ UNSTAKE SI276</button>
-        <button class="sbtn sbtn-ghost" id="closeBalModal" style="width:100%;margin-top:10px">Close</button>
-      </div>
-
-      <!-- unstake request panel -->
-      <div id="pUnstake" style="display:none">
-        <p class="step-hint">Request to unstake your SI276 — admin will process and confirm.</p>
-        <div class="sfield">
-          <label for="unstakeAmountIn">Amount to unstake (SI276)</label>
-          <input id="unstakeAmountIn" type="number" min="1" placeholder="e.g. 500" autocomplete="off">
-        </div>
-        <div id="unstakeMaxHint" style="font-size:.85rem;color:var(--muted);margin:-8px 0 16px"></div>
-        <div class="sbtns">
-          <button class="sbtn sbtn-ghost" id="cancelUnstakeBtn">Cancel</button>
-          <button class="sbtn sbtn-violet" id="submitUnstakeBtn">Submit request →</button>
-        </div>
-      </div>
-
-      <!-- unstake submitted panel -->
-      <div id="pUnstakeDone" style="display:none">
-        <div class="notice">✅ <strong>Unstake request submitted!</strong> You've requested to unstake <strong id="unstakePendingAmount"></strong>. Admin has been notified and will process your withdrawal. Your balance will update once confirmed.</div>
-        <div class="sbtns" style="margin-top:8px">
-          <button class="sbtn sbtn-ghost" id="unstakeDoneBtn">Done</button>
-        </div>
-      </div>
-
-      <!-- connect wallet -->
-      <div id="pConnect" style="display:none">
-        <p class="step-hint">Connect your wallet to get started</p>
-        <div class="sfield"><label for="connectWallet">Your wallet address</label><input id="connectWallet" type="text" placeholder="0x… or your address" autocomplete="off" spellcheck="false"></div>
-        <div class="sfield"><label for="connectUname">Choose a username</label><input id="connectUname" type="text" placeholder="e.g. satoshi" autocomplete="off" spellcheck="false"></div>
-        <div class="sbtns">
-          <button class="sbtn sbtn-ghost" id="cancelConnectBtn">Cancel</button>
-          <button class="sbtn sbtn-primary" id="connectWalletBtn">Connect &rarr;</button>
         </div>
       </div>
 
@@ -389,9 +446,54 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
         <div class="sbtns"><button class="sbtn sbtn-ghost" id="copyPendingBtn">Copy address</button></div>
         <div class="sbtns" style="margin-top:8px"><button class="sbtn sbtn-ghost" id="doneBtn">Done</button></div>
       </div>
+
+      <!-- Unstake request panel -->
+      <div id="pUnstake" style="display:none">
+        <p class="step-hint">Enter the amount you want to unstake. Your request will be sent to admin for confirmation.</p>
+        <div class="sfield">
+          <label for="unstakeAmtIn">Amount to unstake (SI276)</label>
+          <input id="unstakeAmtIn" type="number" min="1" placeholder="e.g. 500" autocomplete="off">
+        </div>
+        <div class="sfield">
+          <label for="unstakeReasonIn">Reason (optional)</label>
+          <input id="unstakeReasonIn" type="text" placeholder="e.g. taking profits" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="sbtns">
+          <button class="sbtn sbtn-ghost" id="unstakeCancelBtn">Cancel</button>
+          <button class="sbtn sbtn-violet" id="unstakeSubmitBtn">Submit request &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Unstake pending panel -->
+      <div id="pUnstakePending" style="display:none">
+        <div class="notice" style="border-color:#6b4400;background:#0d0a00">
+          🔓 <strong>Unstake request submitted!</strong> You've requested to unstake <strong id="unstakePendingAmt"></strong>. Admin has been notified and will process your request.
+        </div>
+        <div class="sbtns" style="margin-top:8px">
+          <button class="sbtn sbtn-ghost" id="unstakeDoneBtn">Done</button>
+        </div>
+      </div>
     </div>
   </section>
 </main>
+
+<!-- Sticky bottom bar -->
+<div class="sticky-bar" id="stickyBar">
+  <!-- not connected -->
+  <div id="sbarNotConnected">
+    <button class="sticky-cw-btn" id="sbarConnectBtn">🔗 Connect Wallet</button>
+    <button class="sticky-stake-btn sticky-disabled" disabled>Stake</button>
+  </div>
+  <!-- connected -->
+  <div id="sbarConnected" style="display:none">
+    <div class="sbar-info">
+      <span class="conn-dot"></span>
+      <span class="sbar-name" id="sbarName"></span>
+    </div>
+    <button class="sticky-stake-btn" id="sbarStakeBtn">Stake &rarr;</button>
+    <button class="sticky-disc-btn" id="sbarDisconnectBtn">✕</button>
+  </div>
+</div>
 
 <footer>
   SI is a community token. Nothing on this page is financial advice. Digital assets can lose all of their value.
@@ -407,6 +509,7 @@ const STAKING_ADDRESS  = "GhgeHAdz96RUsHbJoTRfXMRNH5ChLjuUWNqw56aYBgzT";
 const CONTRACT_ADDRESS = "";
 
 const $ = id => document.getElementById(id);
+function hideAll(){ ["pStepB","pStepC","pPending","pConnect"].forEach(p=>$(p).style.display="none"); if($("balModal")) $("balModal").style.display="none"; }
 const API = "https://api.jsonbin.io/v3/b/";
 const RHDRS = { "X-Master-Key": JSONBIN_API_KEY };
 const WHDRS = { "Content-Type":"application/json", "X-Master-Key": JSONBIN_API_KEY };
@@ -434,21 +537,24 @@ function getSession(){
   return wallet && uname ? {wallet, uname} : null;
 }
 function applySession(session){
-  if(!session) return;
+  if(!session){
+    $("balanceBtn").textContent="YOUR BALANCE";
+    // sticky bar
+    $("sbarNotConnected").style.display="flex";
+    $("sbarConnected").style.display="none";
+    return;
+  }
   $("walletIn").value = session.wallet;
   $("unameIn").value  = session.uname;
-  $("connectedBar").style.display = "block";
-  $("connName").textContent   = session.uname;
-  $("connWallet").textContent = session.wallet.length > 24
-    ? session.wallet.slice(0,10)+"…"+session.wallet.slice(-6)
-    : session.wallet;
-  $("stakeHint").textContent  = "You're connected as "+session.uname+". Send SI276 and hit Stake to submit.";
-  // update hero balance button label
   $("balanceBtn").textContent = session.uname+"'s Balance";
+  // sticky bar
+  $("sbarNotConnected").style.display="none";
+  $("sbarConnected").style.display="flex";
+  $("sbarName").textContent = session.uname;
 }
 // Load session immediately
 const existingSession = getSession();
-if(existingSession) applySession(existingSession);
+applySession(existingSession);
 
 async function loadBin(){
   try{
@@ -485,42 +591,44 @@ $("copyAddrBtn").addEventListener("click",()=>copyText(STAKING_ADDRESS));
 $("copyPendingBtn").addEventListener("click",()=>copyText(STAKING_ADDRESS));
 
 // Panels
-const PANELS=["pIdle","pConnect","pStepB","pStepC","pPending"];
-function show(id){ PANELS.forEach(p=>$(p).style.display=p===id?"block":"none"); }
+const PANELS=["pStepB","pStepC","pPending","pConnect"];
+function show(id){
+  PANELS.forEach(p=>$(p).style.display=p===id?"block":"none");
+  if($("balModal")) $("balModal").style.display="none";
+}
 
-$("openBtn").addEventListener("click",()=>{
-  $("balModal").style.display="none";
-  if(getSession()){
-    // already connected — go straight to stake form
-    show("pStepB");
-  } else {
-    // not connected — ask for wallet first
-    $("pConnect").dataset.next="stake";
-    show("pConnect");
-  }
+// disabled stake button — prompt to connect
+// sticky bar
+$("sbarConnectBtn").addEventListener("click",()=>{
+  show("pConnect");
   $("stake").scrollIntoView({behavior:"smooth"});
 });
+$("sbarStakeBtn").addEventListener("click",()=>{
+  show("pStepB");
+  $("stake").scrollIntoView({behavior:"smooth"});
+});
+$("sbarDisconnectBtn").addEventListener("click", doDisconnect);
 
-$("cancelConnectBtn").addEventListener("click",()=>show("pIdle"));
-$("connectWalletBtn").addEventListener("click",()=>{
-  const w=$("connectWallet").value.trim();
-  const u=$("connectUname").value.trim();
+// connect wallet panel
+$("connectWalletBtn") && $("connectWalletBtn").addEventListener("click",()=>{
+  show("pConnect");
+  $("stake").scrollIntoView({behavior:"smooth"});
+});
+$("cwCancelBtn").addEventListener("click",()=>hideAll());
+$("cwConfirmBtn").addEventListener("click",()=>{
+  const w=$("cwWalletIn").value.trim(), u=$("cwUnameIn").value.trim();
   if(!w) return toast("Enter your wallet address");
   if(!u) return toast("Choose a username");
-  saveSession(w, u);
-  applySession({wallet:w, uname:u});
-  $("walletIn").value = w;
-  $("unameIn").value  = u;
-  const next=$("pConnect").dataset.next;
-  $("pConnect").dataset.next="";
-  if(next==="balance"){
-    PANELS.forEach(p=>$(p).style.display="none");
-    $("balModal").style.display="block";
-  } else {
-    show("pStepB");
-  }
+  // save session and pre-fill form
+  saveSession(w,u);
+  applySession({wallet:w,uname:u});
+  $("walletIn").value=w; $("unameIn").value=u;
+  hideAll();
+  toast("Wallet connected ✓");
+  loadMyBalance();
 });
-$("cancelBtn").addEventListener("click",()=>show("pIdle"));
+
+$("cancelBtn").addEventListener("click",()=>hideAll());
 $("backBtn").addEventListener("click",()=>show("pStepB"));
 $("nextBtn").addEventListener("click",()=>{
   const w=$("walletIn").value.trim(),u=$("unameIn").value.trim(),a=$("amountIn").value.trim();
@@ -547,137 +655,145 @@ $("sentBtn").addEventListener("click", async ()=>{
   btn.disabled=false; btn.textContent="I have sent \u2713";
 });
 
-$("doneBtn").addEventListener("click",()=>show("pIdle"));
+$("doneBtn").addEventListener("click",()=>hideAll());
 
 // Balance modal — button sits in hero, modal sits in stake section
 $("balanceBtn").addEventListener("click",()=>{
   $("stake").scrollIntoView({behavior:"smooth"});
+  // small delay so scroll lands before panel switches
   setTimeout(()=>{
-    if(getSession()){
-      PANELS.forEach(p=>$(p).style.display="none");
-      $("balModal").style.display="block";
-    } else {
-      // not connected — ask for wallet first, then show balance
-      $("connectWallet").value="";
-      $("connectUname").value="";
-      // override connect button to go to balance after connecting
-      show("pConnect");
-      // flag so connectWalletBtn knows to open balance instead of stake form
-      $("pConnect").dataset.next="balance";
-    }
+    PANELS.forEach(p=>$(p).style.display="none");
+    $("balModal").style.display="block";
   }, 300);
 });
 $("closeBalModal").addEventListener("click",()=>{
   $("balModal").style.display="none";
-  $("pIdle").style.display="block";
+  hideAll();
 });
-// Unstake flow
-$("unstakeBtn").addEventListener("click",async ()=>{
+$("modalReceiveBtn").addEventListener("click",()=>{
+  const p=$("receivePanel"), b=$("bm-body-main");
+  const open = p.style.display==="block";
+  p.style.display = open ? "none" : "block";
+  if(!open) p.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+$("copyRecvBtn").addEventListener("click",()=>copyText("GhgeHAdz96RUsHbJoTRfXMRNH5ChLjuUWNqw56aYBgzT"));
+$("closeRecvBtn").addEventListener("click",()=>{ $("receivePanel").style.display="none"; });
+$("modalStakeBtn").addEventListener("click",()=>{
   $("balModal").style.display="none";
-  PANELS.forEach(p=>$(p).style.display="none");
-  $("pUnstake").style.display="none";
-  $("pUnstakeDone").style.display="none";
-  // show current staked amount as hint
-  try{
-    const data = await loadBin();
-    const stake = (data.stakes||{})[myId];
-    if(stake && stake.amount){
-      $("unstakeMaxHint").textContent="Your staked balance: "+stake.amount+" SI276";
-      $("unstakeAmountIn").max=stake.amount;
-    } else {
-      $("unstakeMaxHint").textContent="";
-    }
-  }catch(e){}
-  $("pUnstake").style.display="block";
+  show("pStepB");
   $("stake").scrollIntoView({behavior:"smooth"});
 });
+$("modalUnstakeBtn").addEventListener("click",()=>{ toast("Contact admin to unstake your SI276."); });
+$("modalSwapBtn").addEventListener("click",()=>{ toast("Swap coming soon."); });
 
-$("cancelUnstakeBtn").addEventListener("click",()=>{
-  $("pUnstake").style.display="none";
-  $("balModal").style.display="block";
-});
-
-$("submitUnstakeBtn").addEventListener("click", async ()=>{
-  const amount=$("unstakeAmountIn").value.trim();
-  if(!amount||isNaN(amount)||Number(amount)<=0) return toast("Enter the amount you want to unstake");
-  const btn=$("submitUnstakeBtn"); btn.disabled=true; btn.textContent="Submitting…";
-  try{
-    const data=await loadBin();
-    if(!data.stakes) data.stakes={};
-    const existing=data.stakes[myId]||{};
-    data.stakes[myId]={
-      ...existing,
-      unstakeRequest:{
-        amount,
-        requestedAt:Date.now(),
-        status:"unstake_pending"
-      }
-    };
-    await saveBin(data);
-    $("unstakePendingAmount").textContent=amount+" SI276";
-    $("pUnstake").style.display="none";
-    $("pUnstakeDone").style.display="block";
-  }catch(e){ toast("Error submitting. Please try again."); console.error(e); }
-  btn.disabled=false; btn.textContent="Submit request →";
-});
-
-$("unstakeDoneBtn").addEventListener("click",()=>{
-  $("pUnstakeDone").style.display="none";
-  $("pIdle").style.display="block";
-});
-$("disconnectBtn").addEventListener("click",()=>{
+function doDisconnect(){
   clearSession();
-  $("connectedBar").style.display="none";
-  $("walletIn").value="";
-  $("unameIn").value="";
-  $("amountIn").value="";
-  $("stakeHint").textContent="Send SI276 to the staking address, notify us, and admin will confirm your stake.";
-  $("balanceBtn").textContent="YOUR BALANCE";
-  $("bmStaked").textContent="0 SI276";
-  $("bmR1").textContent="0 SI276";
-  $("bmR2").textContent="0 SI276";
+  $("walletIn").value=""; $("unameIn").value=""; $("amountIn").value="";
+  $("bmStaked").textContent="—"; $("bmStakedUsd").textContent="$—";
+  $("bmTotal").textContent="0 SI276"; $("bmTotalUsd").textContent="$0.00";
+  $("bmR1").textContent="0 SI276"; $("bmR1sub").textContent="—";
+  $("bmR2").textContent="0 SI276"; $("bmR2sub").textContent="—";
+  applySession(null);
+  hideAll();
   toast("Disconnected");
-});
+}
+$("disconnectBtn").addEventListener("click", doDisconnect);
+if($("modalDisconnectBtn")) $("modalDisconnectBtn").addEventListener("click", doDisconnect);
 
 // Compute estimated rewards based on stake amount + days staked
-function calcRewards(amount, submittedAt){
-  if(!amount||!submittedAt) return {r1:0,r2:0};
-  const days = Math.floor((Date.now()-submittedAt)/86400000);
+const SI276_CA = "HMYd9tosnUXuNHmq7pXmoePRVBLBBjA3JBfydq6upump";
+let cachedPrice = null;
+let lastPriceFetch = 0;
+
+async function fetchTokenPrice(){
+  // cache for 60s
+  if(cachedPrice !== null && Date.now()-lastPriceFetch < 60000) return cachedPrice;
+  try{
+    const r = await fetch("https://api.dexscreener.com/latest/dex/tokens/"+SI276_CA);
+    const j = await r.json();
+    const pairs = (j.pairs||[]).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0));
+    const price = pairs.length ? parseFloat(pairs[0].priceUsd||0) : 0;
+    cachedPrice = price;
+    lastPriceFetch = Date.now();
+    return price;
+  }catch(e){ console.warn("price fetch failed",e); return cachedPrice||0; }
+}
+
+function fmtUsd(val){
+  if(!val && val!==0) return "$—";
+  if(val>=1000) return "$"+val.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+  if(val>=1) return "$"+val.toFixed(2);
+  return "$"+val.toFixed(6);
+}
+
+function calcRewards(amount, sinceTs){
+  if(!amount||!sinceTs) return {r1:0,r2:0};
+  const days = Math.floor((Date.now()-sinceTs)/86400000);
   const amt = parseFloat(amount)||0;
   const m1days = Math.min(days, 180);
   const m2days = Math.max(0, Math.min(days-180, 180));
-  return { r1: (amt * 0.001 * m1days).toFixed(2), r2: (amt * 0.0025 * m2days).toFixed(2) };
+  return { r1: (amt*0.001*m1days).toFixed(2), r2: (amt*0.0025*m2days).toFixed(2) };
 }
 
-// Load balance on page load
 async function loadMyBalance(){
   try{
-    const data = await loadBin();
+    const [data, price] = await Promise.all([loadBin(), fetchTokenPrice()]);
     const stake = (data.stakes||{})[myId];
-    // available balance always 0
-    // staked modal
+    const session = getSession();
+
+    // update price ticker
+    if($("bmPriceTicker")) $("bmPriceTicker").textContent = price ? "1 SI276 = "+fmtUsd(price) : "";
+
+    // profile header
+    if(session){
+      $("bmAvatar").textContent = session.uname.charAt(0).toUpperCase();
+      $("bmUname").textContent  = session.uname;
+      const w = session.wallet;
+      $("bmAddr").textContent   = w.length>18 ? w.slice(0,10)+"…"+w.slice(-6) : w;
+      $("bmConnTag").style.display = "inline-block";
+      $("modalDisconnectBtn").style.display = "block";
+    } else {
+      $("bmAvatar").textContent = "?";
+      $("bmUname").textContent  = "Not connected";
+      $("bmAddr").textContent   = "Connect your wallet to stake";
+      $("bmConnTag").style.display = "none";
+      $("modalDisconnectBtn").style.display = "none";
+    }
+
     if(!stake){
-      $("bmStaked").textContent="0 SI276";
-      $("bmR1").textContent="0 SI276";
-      $("bmR2").textContent="0 SI276";
+      $("bmStaked").textContent   = "0 SI276";
+      $("bmStakedUsd").textContent= "$0.00";
+      $("bmTotal").textContent    = "0 SI276";
+      $("bmTotalUsd").textContent = "$0.00";
+      $("bmR1").textContent="0 SI276"; $("bmR1sub").textContent="$0.00";
+      $("bmR2").textContent="0 SI276"; $("bmR2sub").textContent="$0.00";
       return;
     }
+
     const isConfirmed = stake.status==="confirmed";
-    // staked row
-    $("bmStaked").textContent = isConfirmed ? (stake.amount||"0")+" SI276" : "Pending confirmation";
-    // rewards
+    const amt = parseFloat(stake.amount)||0;
+    const amtStr = amt ? amt.toLocaleString()+" SI276" : "Pending…";
+    const usdVal = amt * price;
+
+    $("bmStaked").textContent    = isConfirmed ? amtStr : "Pending…";
+    $("bmStakedUsd").textContent = isConfirmed && price ? fmtUsd(usdVal) : "—";
+    $("bmTotal").textContent     = isConfirmed ? amtStr : "Pending…";
+    $("bmTotalUsd").textContent  = isConfirmed && price ? fmtUsd(usdVal) : "—";
+
     if(isConfirmed && stake.amount){
       const {r1,r2} = calcRewards(stake.amount, stake.confirmedAt||stake.submittedAt||Date.now());
-      $("bmR1").textContent = r1+" SI276";
-      $("bmR2").textContent = r2+" SI276";
+      $("bmR1").textContent  = parseFloat(r1).toLocaleString()+" SI276";
+      $("bmR1sub").textContent = price ? fmtUsd(parseFloat(r1)*price) : "—";
+      $("bmR2").textContent  = parseFloat(r2).toLocaleString()+" SI276";
+      $("bmR2sub").textContent = price ? fmtUsd(parseFloat(r2)*price) : "—";
     } else {
-      $("bmR1").textContent="0 SI276";
-      $("bmR2").textContent="0 SI276";
+      $("bmR1").textContent="0 SI276"; $("bmR1sub").textContent="$0.00";
+      $("bmR2").textContent="0 SI276"; $("bmR2sub").textContent="$0.00";
     }
-    // pre-fill form fields
-    if(stake.wallet)  $("walletIn").value  = stake.wallet;
-    if(stake.uname)   $("unameIn").value   = stake.uname;
-    if(stake.amount)  $("amountIn").value  = stake.amount;
+
+    if(stake.wallet) $("walletIn").value = stake.wallet;
+    if(stake.uname)  $("unameIn").value  = stake.uname;
+    if(stake.amount) $("amountIn").value = stake.amount;
   }catch(e){ console.warn("loadMyBalance error",e); }
 }
 
