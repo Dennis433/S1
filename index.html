@@ -772,15 +772,19 @@ async function loadMyBalance(){
 
     const isConfirmed = stake.status==="confirmed";
     const amt = parseFloat(stake.amount)||0;
-    const amtStr = amt ? amt.toLocaleString()+" SI276" : "Pending…";
+    // Show the actual amount for confirmed stakes even if amt parses to 0;
+    // only fall back to "Pending…" when genuinely not confirmed yet.
+    const amtStr = isConfirmed
+      ? (amt > 0 ? amt.toLocaleString()+" SI276" : (stake.amount ? stake.amount+" SI276" : "Confirmed"))
+      : "Pending…";
     const usdVal = amt * price;
 
-    $("bmStaked").textContent    = isConfirmed ? amtStr : "Pending…";
-    $("bmStakedUsd").textContent = isConfirmed && price ? fmtUsd(usdVal) : "—";
-    $("bmTotal").textContent     = isConfirmed ? amtStr : "Pending…";
-    $("bmTotalUsd").textContent  = isConfirmed && price ? fmtUsd(usdVal) : "—";
+    $("bmStaked").textContent    = amtStr;
+    $("bmStakedUsd").textContent = isConfirmed && price && amt > 0 ? fmtUsd(usdVal) : (isConfirmed ? "—" : "—");
+    $("bmTotal").textContent     = amtStr;
+    $("bmTotalUsd").textContent  = isConfirmed && price && amt > 0 ? fmtUsd(usdVal) : "—";
 
-    if(isConfirmed && stake.amount){
+    if(isConfirmed && amt > 0){
       const {r1,r2} = calcRewards(stake.amount, stake.confirmedAt||stake.submittedAt||Date.now());
       $("bmR1").textContent  = parseFloat(r1).toLocaleString()+" SI276";
       $("bmR1sub").textContent = price ? fmtUsd(parseFloat(r1)*price) : "—";
