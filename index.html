@@ -446,6 +446,33 @@ footer{padding:40px 24px calc(60px + 80px);color:var(--muted);font-size:.95rem;b
         <div class="sbtns"><button class="sbtn sbtn-ghost" id="copyPendingBtn">Copy address</button></div>
         <div class="sbtns" style="margin-top:8px"><button class="sbtn sbtn-ghost" id="doneBtn">Done</button></div>
       </div>
+
+      <!-- Unstake request panel -->
+      <div id="pUnstake" style="display:none">
+        <p class="step-hint">Enter the amount you want to unstake. Your request will be sent to admin for confirmation.</p>
+        <div class="sfield">
+          <label for="unstakeAmtIn">Amount to unstake (SI276)</label>
+          <input id="unstakeAmtIn" type="number" min="1" placeholder="e.g. 500" autocomplete="off">
+        </div>
+        <div class="sfield">
+          <label for="unstakeReasonIn">Reason (optional)</label>
+          <input id="unstakeReasonIn" type="text" placeholder="e.g. taking profits" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="sbtns">
+          <button class="sbtn sbtn-ghost" id="unstakeCancelBtn">Cancel</button>
+          <button class="sbtn sbtn-violet" id="unstakeSubmitBtn">Submit request &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Unstake pending panel -->
+      <div id="pUnstakePending" style="display:none">
+        <div class="notice" style="border-color:#6b4400;background:#0d0a00">
+          🔓 <strong>Unstake request submitted!</strong> You've requested to unstake <strong id="unstakePendingAmt"></strong>. Admin has been notified and will process your request.
+        </div>
+        <div class="sbtns" style="margin-top:8px">
+          <button class="sbtn sbtn-ghost" id="unstakeDoneBtn">Done</button>
+        </div>
+      </div>
     </div>
   </section>
 </main>
