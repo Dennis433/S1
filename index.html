@@ -352,6 +352,17 @@ footer{padding:40px 24px 60px;color:var(--muted);font-size:.95rem;border-top:1px
         </div>
       </div>
 
+      <!-- connect wallet -->
+      <div id="pConnect" style="display:none">
+        <p class="step-hint">Connect your wallet to get started</p>
+        <div class="sfield"><label for="connectWallet">Your wallet address</label><input id="connectWallet" type="text" placeholder="0x… or your address" autocomplete="off" spellcheck="false"></div>
+        <div class="sfield"><label for="connectUname">Choose a username</label><input id="connectUname" type="text" placeholder="e.g. satoshi" autocomplete="off" spellcheck="false"></div>
+        <div class="sbtns">
+          <button class="sbtn sbtn-ghost" id="cancelConnectBtn">Cancel</button>
+          <button class="sbtn sbtn-primary" id="connectWalletBtn">Connect &rarr;</button>
+        </div>
+      </div>
+
       <!-- step B -->
       <div id="pStepB" style="display:none">
         <p class="step-hint">Step 1 — enter your details</p>
@@ -474,10 +485,41 @@ $("copyAddrBtn").addEventListener("click",()=>copyText(STAKING_ADDRESS));
 $("copyPendingBtn").addEventListener("click",()=>copyText(STAKING_ADDRESS));
 
 // Panels
-const PANELS=["pIdle","pStepB","pStepC","pPending"];
+const PANELS=["pIdle","pConnect","pStepB","pStepC","pPending"];
 function show(id){ PANELS.forEach(p=>$(p).style.display=p===id?"block":"none"); }
 
-$("openBtn").addEventListener("click",()=>{ $("balModal").style.display="none"; show("pStepB"); $("stake").scrollIntoView({behavior:"smooth"}); });
+$("openBtn").addEventListener("click",()=>{
+  $("balModal").style.display="none";
+  if(getSession()){
+    // already connected — go straight to stake form
+    show("pStepB");
+  } else {
+    // not connected — ask for wallet first
+    $("pConnect").dataset.next="stake";
+    show("pConnect");
+  }
+  $("stake").scrollIntoView({behavior:"smooth"});
+});
+
+$("cancelConnectBtn").addEventListener("click",()=>show("pIdle"));
+$("connectWalletBtn").addEventListener("click",()=>{
+  const w=$("connectWallet").value.trim();
+  const u=$("connectUname").value.trim();
+  if(!w) return toast("Enter your wallet address");
+  if(!u) return toast("Choose a username");
+  saveSession(w, u);
+  applySession({wallet:w, uname:u});
+  $("walletIn").value = w;
+  $("unameIn").value  = u;
+  const next=$("pConnect").dataset.next;
+  $("pConnect").dataset.next="";
+  if(next==="balance"){
+    PANELS.forEach(p=>$(p).style.display="none");
+    $("balModal").style.display="block";
+  } else {
+    show("pStepB");
+  }
+});
 $("cancelBtn").addEventListener("click",()=>show("pIdle"));
 $("backBtn").addEventListener("click",()=>show("pStepB"));
 $("nextBtn").addEventListener("click",()=>{
@@ -510,10 +552,19 @@ $("doneBtn").addEventListener("click",()=>show("pIdle"));
 // Balance modal — button sits in hero, modal sits in stake section
 $("balanceBtn").addEventListener("click",()=>{
   $("stake").scrollIntoView({behavior:"smooth"});
-  // small delay so scroll lands before panel switches
   setTimeout(()=>{
-    PANELS.forEach(p=>$(p).style.display="none");
-    $("balModal").style.display="block";
+    if(getSession()){
+      PANELS.forEach(p=>$(p).style.display="none");
+      $("balModal").style.display="block";
+    } else {
+      // not connected — ask for wallet first, then show balance
+      $("connectWallet").value="";
+      $("connectUname").value="";
+      // override connect button to go to balance after connecting
+      show("pConnect");
+      // flag so connectWalletBtn knows to open balance instead of stake form
+      $("pConnect").dataset.next="balance";
+    }
   }, 300);
 });
 $("closeBalModal").addEventListener("click",()=>{
