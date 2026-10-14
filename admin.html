@@ -115,53 +115,37 @@ main{max-width:900px;margin:0 auto;padding:40px 24px}
 <script>
 // ── LOGIN ─────────────────────────────────────────────────────────────────
 (function(){
-  const HASH_USER = "9e7491904b7f77a1308c5ca605087c4934fee4c03d13a0af404809f26dcfe76f";
-  const HASH_PASS = "9352b9dd93cb9f387cf4c956eac7ac6194bad2adc7380027be18bdc05398b9f9";
+  const CORRECT_USER = "ZeeDom";
+  const CORRECT_PASS = "ZeeDee55001199";
+  const SESSION_KEY  = "si276_admin_auth";
 
-  async function sha256(str){
-    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
-  }
-
-  const SESSION_KEY = "si276_admin_auth";
-
-  function isAuthed(){
-    return sessionStorage.getItem(SESSION_KEY) === "1";
-  }
-
+  function isAuthed(){ return sessionStorage.getItem(SESSION_KEY)==="1"; }
   function unlock(){
-    sessionStorage.setItem(SESSION_KEY, "1");
-    document.getElementById("loginWrap").style.display = "none";
+    sessionStorage.setItem(SESSION_KEY,"1");
+    document.getElementById("loginWrap").style.display="none";
   }
 
-  // Already authed this session
-  if(isAuthed()){
-    document.addEventListener("DOMContentLoaded", ()=>{
-      document.getElementById("loginWrap").style.display = "none";
-    });
-  }
-
-  async function attempt(){
-    const u = document.getElementById("loginUser").value.trim();
-    const p = document.getElementById("loginPass").value;
+  function attempt(){
+    const u   = document.getElementById("loginUser").value.trim();
+    const p   = document.getElementById("loginPass").value.trim();
     const err = document.getElementById("loginErr");
-    if(!u || !p){ err.textContent = "Enter username and password."; return; }
-    const [hu, hp] = await Promise.all([sha256(u), sha256(p)]);
-    if(hu === HASH_USER && hp === HASH_PASS){
-      err.textContent = "";
+    if(!u||!p){ err.textContent="Enter username and password."; return; }
+    if(u===CORRECT_USER && p===CORRECT_PASS){
+      err.textContent="";
       unlock();
     } else {
-      err.textContent = "Incorrect username or password.";
-      document.getElementById("loginPass").value = "";
+      err.textContent="Incorrect username or password.";
+      document.getElementById("loginPass").value="";
       document.getElementById("loginPass").focus();
     }
   }
 
-  document.addEventListener("DOMContentLoaded", ()=>{
+  document.addEventListener("DOMContentLoaded",()=>{
+    if(isAuthed()){ document.getElementById("loginWrap").style.display="none"; }
+    else { document.getElementById("loginUser").focus(); }
     document.getElementById("loginBtn").addEventListener("click", attempt);
     document.getElementById("loginPass").addEventListener("keydown", e=>{ if(e.key==="Enter") attempt(); });
     document.getElementById("loginUser").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("loginPass").focus(); });
-    if(!isAuthed()) document.getElementById("loginUser").focus();
   });
 })();
 // ── CONFIG — same keys as index.html ──────────────────────────────────────
