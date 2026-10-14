@@ -41,7 +41,6 @@ main{max-width:900px;margin:0 auto;padding:40px 24px}
 .sbtn{padding:12px 22px;border-radius:999px;font:700 .9rem "Barlow",sans-serif;letter-spacing:.04em;cursor:pointer;transition:.2s,transform .15s;border:0}
 .sbtn:active{transform:scale(.97)}
 .bc{background:#1a3a1a;border:1.5px solid var(--green);color:var(--green-light)}
-.bu{background:#1a1a3a;border:1.5px solid var(--violet);color:var(--violet-soft)}.bu:hover{background:#22224a}
 .bc:hover{background:#214821}
 .bg2{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
 .bg2:hover{border-color:var(--violet-soft)}
@@ -52,6 +51,10 @@ main{max-width:900px;margin:0 auto;padding:40px 24px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);opacity:0;z-index:30;padding:12px 22px;border-radius:999px;background:#e6e8ea;color:#000;font:700 1rem "Barlow",sans-serif;transition:.25s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .last-updated{font-size:.8rem;color:var(--muted);margin-bottom:16px}
+.card.unstake-pending{border-left-color:#7a2cf0}
+.tag-unstake{background:#1a0a2e;border:1px solid var(--violet);color:var(--violet-soft)}
+.unstake-section{margin-top:10px;padding:10px 14px;border-radius:10px;background:#100820;border:1px solid var(--violet);font-size:.9rem;color:var(--muted)}
+.unstake-section strong{color:#e6e8ea}
 </style>
 </head>
 <body>
@@ -65,6 +68,7 @@ main{max-width:900px;margin:0 auto;padding:40px 24px}
     <div class="stat"><div class="sv" id="sT">—</div><div class="sl">Total</div></div>
     <div class="stat"><div class="sv" id="sP">—</div><div class="sl">Pending</div></div>
     <div class="stat"><div class="sv" id="sC">—</div><div class="sl">Confirmed</div></div>
+    <div class="stat"><div class="sv" id="sU">—</div><div class="sl">Unstake Requests</div></div>
   </div>
   <div class="sec-title">Stake submissions</div>
   <div class="last-updated" id="lastUpdated"></div>
@@ -72,6 +76,7 @@ main{max-width:900px;margin:0 auto;padding:40px 24px}
     <button class="fb on" data-f="all">All</button>
     <button class="fb" data-f="pending">Pending</button>
     <button class="fb" data-f="confirmed">Confirmed</button>
+    <button class="fb" data-f="unstake_pending">Unstake Requests</button>
   </div>
   <div id="list"><div class="empty">Loading…</div></div>
 </main>
@@ -112,38 +117,56 @@ async function saveBin(data){
 }
 
 function render(){
-  const shown = filter==="all" ? all : all.filter(s=>s.status===filter);
+  let shown;
+  if(filter==="unstake_pending"){
+    shown = all.filter(s=>s.unstakeRequest && s.unstakeRequest.status==="unstake_pending");
+  } else if(filter==="all"){
+    shown = all;
+  } else {
+    shown = all.filter(s=>s.status===filter);
+  }
   const el=$("list");
-  if(!shown.length){ el.innerHTML=`<div class="empty">No ${filter==="all"?"submissions":filter} yet.</div>`; return; }
-  el.innerHTML = shown.map(s=>`
-    <div class="card ${s.status}">
+  if(!shown.length){ el.innerHTML=`<div class="empty">No ${filter==="all"?"submissions":filter==="unstake_pending"?"unstake requests":filter} yet.</div>`; return; }
+  el.innerHTML = shown.map(s=>{
+    const hasUnstake = s.unstakeRequest && s.unstakeRequest.status==="unstake_pending";
+    let cardClass = s.status;
+    if(hasUnstake && filter==="unstake_pending") cardClass="unstake-pending";
+    return `
+    <div class="card ${cardClass}">
       <div class="ct">
         <span class="cn">${esc(s.uname||"—")}</span>
-        <span class="tag ${s.status==="confirmed"?"tc":"tp"}">${s.status==="confirmed"?"✓ Confirmed":"⏳ Pending"}</span>
+        <span class="tag ${s.status==="confirmed"?"tc":hasUnstake&&filter==="unstake_pending"?"tag-unstake":"tp"}">${s.status==="confirmed"?"✓ Confirmed":hasUnstake&&filter==="unstake_pending"?"↓ Unstake Request":"⏳ Pending"}</span>
       </div>
       <div class="cw">${esc(s.wallet||"—")}</div>
       <div class="cm">Submitted ${s.submittedAt?ago(s.submittedAt):"unknown"}${s.confirmedAt?" · Confirmed "+ago(s.confirmedAt):""}</div>
-      ${s.status==="confirmed" ? `
-      <div class="cm" style="color:#5dda5d;margin-top:4px">Staked: ${esc(s.amount||"")} SI276</div>
-      <div class="ca" style="margin-top:12px">
-        <input class="ai" id="edit-${s.id}" type="number" min="0" placeholder="Edit balance" value="${esc(s.amount||"")}">
-        <span class="al">SI276</span>
-        <button class="sbtn bu" onclick="editBalance('${s.id}')">Update Balance</button>
-        <button class="sbtn bg2" onclick="revert('${s.id}')">Revert to pending</button>
-      </div>` : `
+      ${s.status==="confirmed"&&!hasUnstake ? `<div class="cm" style="color:#5dda5d;margin-top:4px">Staked: ${esc(s.amount||"")} SI276</div>` : ""}
+      ${s.status==="pending" ? `
       ${s.amount?`<div class="cm" style="color:#a24dff;margin-top:4px">User wants to stake: <strong style="color:#e6e8ea">${esc(s.amount)} SI276</strong></div>`:""}
       <div class="ca">
         <input class="ai" id="amt-${s.id}" type="number" min="0" placeholder="Amount" value="${esc(s.amount||"")}">
         <span class="al">SI276</span>
         <button class="sbtn bc" onclick="confirmStake('${s.id}')">Confirm ✓</button>
-      </div>`}
-    </div>
-  `).join("");
+      </div>` : ""}
+      ${s.status==="confirmed"&&!hasUnstake ? `
+      <div class="ca">
+        <button class="sbtn bg2" onclick="revert('${s.id}')">Revert to pending</button>
+      </div>` : ""}
+      ${hasUnstake ? `
+      <div class="unstake-section">
+        <div style="margin-bottom:6px">↓ <strong>Unstake request:</strong> ${esc(s.unstakeRequest.amount)} SI276 · requested ${ago(s.unstakeRequest.requestedAt)}</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+          <button class="sbtn bc" onclick="confirmUnstake('${s.id}')">Confirm Unstake ✓</button>
+          <button class="sbtn bg2" onclick="dismissUnstake('${s.id}')">Dismiss</button>
+        </div>
+      </div>` : ""}
+    </div>`;
+  }).join("");
 }
 
 function updateStats(){
   const t=all.length, p=all.filter(s=>s.status==="pending").length;
-  $("sT").textContent=t; $("sP").textContent=p; $("sC").textContent=t-p;
+  const u=all.filter(s=>s.unstakeRequest&&s.unstakeRequest.status==="unstake_pending").length;
+  $("sT").textContent=t; $("sP").textContent=p; $("sC").textContent=t-p; $("sU").textContent=u;
   $("lastUpdated").textContent="Last updated: "+new Date().toLocaleTimeString();
 }
 
@@ -173,16 +196,39 @@ async function confirmStake(id){
   }catch(e){ toast("Error: "+e.message); }
 }
 
-async function editBalance(id){
-  const el=document.getElementById("edit-"+id);
-  const amount=el?el.value.trim():"";
-  if(!amount){ toast("Enter a new balance amount"); el&&el.focus(); return; }
+async function confirmUnstake(id){
   try{
-    const data=await loadBin();
+    const data = await loadBin();
     if(!data.stakes||!data.stakes[id]){ toast("Stake not found"); return; }
-    data.stakes[id]={...data.stakes[id], amount, updatedAt:Date.now()};
+    const ur = data.stakes[id].unstakeRequest;
+    if(!ur){ toast("No unstake request found"); return; }
+    // Mark unstake as confirmed; subtract from staked amount
+    const prevAmt = parseFloat(data.stakes[id].amount||0);
+    const unstakeAmt = parseFloat(ur.amount||0);
+    const remaining = Math.max(0, prevAmt - unstakeAmt);
+    data.stakes[id] = {
+      ...data.stakes[id],
+      amount: remaining > 0 ? String(remaining) : "0",
+      status: remaining > 0 ? "confirmed" : "unstaked",
+      unstakeRequest: { ...ur, status:"unstake_confirmed", confirmedAt:Date.now() }
+    };
     await saveBin(data);
-    toast("Balance updated to "+amount+" SI276 ✓");
+    toast("Unstake confirmed ✓");
+    await reload();
+  }catch(e){ toast("Error: "+e.message); }
+}
+
+async function dismissUnstake(id){
+  try{
+    const data = await loadBin();
+    if(!data.stakes||!data.stakes[id]){ toast("Stake not found"); return; }
+    if(!data.stakes[id].unstakeRequest){ toast("No unstake request"); return; }
+    data.stakes[id] = {
+      ...data.stakes[id],
+      unstakeRequest: { ...data.stakes[id].unstakeRequest, status:"unstake_dismissed" }
+    };
+    await saveBin(data);
+    toast("Unstake request dismissed");
     await reload();
   }catch(e){ toast("Error: "+e.message); }
 }
